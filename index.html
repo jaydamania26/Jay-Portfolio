@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jay Damania | AI Automation Architect</title>
+    <!-- Viewport fixed for Mobile (OnePlus 8T) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jay Damania | Automation Architect</title>
     
     <!-- Animations Library (AOS) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -19,16 +20,18 @@
     <div class="cursor-outline"></div>
 
     <canvas id="canvas-bg"></canvas>
+    
+    <!-- NAVIGATION BAR -->
     <nav data-aos="fade-down" data-aos-duration="800">
         <div class="logo hover-trigger">Jay.D<span class="blink">_</span></div>
-        
-        <!-- ADD THIS LINE HERE for the Hamburger Icon -->
         <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
-
+        
         <ul class="nav-links">
-            <li><a href="#ai-method" class="hover-trigger">AI Method</a></li>
+            <li><a href="#ai-method" class="hover-trigger">Method</a></li>
             <li><a href="#dashboards" class="hover-trigger">Analytics</a></li>
             <li><a href="#projects" class="hover-trigger">Work</a></li>
+            <!-- RESUME LINK IN NAVBAR -->
+            <li><a href="resume.pdf" target="_blank" class="hover-trigger" style="color: var(--primary);">Resume</a></li>
             <li><a href="#contact" class="btn-contact hover-trigger">Hire Me</a></li>
         </ul>
     </nav>
@@ -40,10 +43,15 @@
                 AI-Augmented<br>
                 <span class="gradient-text">Automation Architect</span>
             </h1>
+            
+            <!-- INTRO SECTION -->
             <p class="subtitle" data-aos="fade-up" data-aos-delay="400">
-                I build smart bots that do the boring work for you.
-                <br>Combining logic with <strong>AI Prompting</strong> to build and fix automation tools at <strong>10x the speed</strong>.
+                <strong>Management Trainee @ Welspun | Intern @ MFSG</strong><br><br>
+                I bridge the gap between manual drudgery and digital efficiency. 
+                Currently leveraging <strong>AI Prompting</strong> to build automation tools 
+                at <strong>10x the speed</strong> of traditional development.
             </p>
+
             <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="600">
                 <span>Inspect the Core</span>
                 <div class="mouse hover-trigger"><div class="wheel"></div></div>
@@ -51,12 +59,22 @@
         </div>
     </header>
 
+    <!-- ABOUT ME SECTION -->
+    <section class="container text-center" style="padding: 0 20px 60px;">
+        <h2 style="font-size: 2rem; margin-bottom: 20px;" data-aos="fade-up">About Me</h2>
+        <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.6;" data-aos="fade-up" data-aos-delay="100">
+            I am a tech-forward <strong>Management Trainee</strong> with a passion for efficiency. 
+            While others code from scratch, I act as an <strong>Architect</strong>—using AI to generate heavy code while I focus on logic, strategy, and deployment. 
+            My goal is simple: Eliminate the boring work so we can focus on the big picture.
+        </p>
+    </section>
+
     <section id="tech-core" class="ai-core-section">
         <div class="container">
-            <div class="section-title center" data-aos="fade-up">
+            <div class="section-title center text-center" data-aos="fade-up">
                 <span class="code-font">01. THE ENGINE</span>
                 <h2>Neural Intelligence</h2>
-                <p style="color: var(--text-muted); margin-top:10px;">Interact: Drag to Rotate | Scroll to Zoom</p>
+                <p style="color: var(--text-muted); margin-top:10px; font-size: 0.9rem;">Interact: Drag to Rotate</p>
             </div>
             <div class="ai-core-wrapper" data-aos="zoom-in" data-aos-duration="1200">
                 <div class="ai-canvas-box hover-trigger">
@@ -68,7 +86,7 @@
 
     <section id="ai-method" class="ai-section">
         <div class="container">
-            <div class="section-title center" data-aos="fade-down">
+            <div class="section-title center text-center" data-aos="fade-down">
                 <span class="code-font">02. MY METHODOLOGY</span>
                 <h2>The AI Advantage</h2>
             </div>
@@ -134,45 +152,48 @@
 
     <section id="journey" class="timeline-section">
         <div class="container">
-            <div class="section-title right" data-aos="fade-left">
+            <div class="section-title right" style="text-align: right;" data-aos="fade-left">
                 <span class="code-font">04. PROFESSIONAL JOURNEY</span>
                 <h2>Strategic Implementation</h2>
             </div>
             <div class="timeline-container">
+                <!-- MFSG BLOCK -->
                 <div class="timeline-block active-on-scroll">
                     <div class="connector"></div>
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-right">
                         <div class="content-header">
                             <h3>The Foundation</h3>
-                            <span class="year-badge">Internship</span>
+                            <span class="year-badge">Internship (Active)</span>
                         </div>
                         <span class="company-name">MFSG Garments</span>
-                        <p>Mastered manual workflows to map domain logic. This context allows me to architect AI solutions that actually fit the business process.</p>
+                        <p>Mastering manual workflows to understand domain logic. I am currently identifying bottlenecks in the production line to prepare them for AI integration.</p>
                     </div>
                 </div>
+                <!-- WELSPUN ENTRY BLOCK -->
                 <div class="timeline-block active-on-scroll">
                     <div class="connector"></div>
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-left" data-aos-delay="100">
                          <div class="content-header">
-                            <h3>The Breakthrough</h3>
-                            <span class="year-badge">Month 3</span>
+                            <h3>The Entry</h3>
+                            <span class="year-badge">Management Trainee</span>
                         </div>
-                        <span class="company-name">Welspun</span>
-                        <p>Leveraged AI to fast-track Python learning. Delivered a <strong class="highlight">Document Validation System</strong> in weeks that typically takes months.</p>
+                        <span class="company-name">Welspun Living</span>
+                        <p>Joined as a Trainee. Immediately leveraged AI to fast-track Python learning, delivering a <strong class="highlight">Document Validation System</strong> in my first few weeks.</p>
                     </div>
                 </div>
+                <!-- WELSPUN CURRENT BLOCK -->
                 <div class="timeline-block active-on-scroll">
                     <div class="connector"></div>
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-right" data-aos-delay="200">
                          <div class="content-header">
-                            <h3>The Scale</h3>
-                            <span class="year-badge">Month 8</span>
+                            <h3>Current Impact</h3>
+                            <span class="year-badge">Present Day</span>
                         </div>
-                        <span class="company-name">Welspun</span>
-                        <p>Orchestrated 12 major bots. Automated <strong class="highlight">85% of a full-time workload</strong>, allowing the team to pivot to strategic analysis.</p>
+                        <span class="company-name">Welspun Living</span>
+                        <p>Currently orchestrating 12 major bots. I have automated <strong class="highlight">85% of the daily manual workload</strong> for my department, allowing the team to focus on analytics.</p>
                     </div>
                 </div>
             </div>
@@ -181,83 +202,80 @@
 
     <section id="projects" class="projects-section">
         <div class="container">
-            <div class="section-title center" data-aos="zoom-in">
+            <div class="section-title center text-center" data-aos="zoom-in">
                 <span class="code-font">05. AI-POWERED DELIVERABLES</span>
                 <h2>Engineered Solutions</h2>
+                <p style="color: var(--text-muted); margin-top: 10px;">Click any card to download the Presentation</p>
             </div>
 
             <div class="grid-layout">
-                <div class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="0">
+                
+                <!-- CARD 1: Walmart -->
+                <a href="walmart.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="0">
                     <div class="card-top">
                         <i class="fab fa-python"></i>
                         <span class="card-tag">AI + Python</span>
                     </div>
                     <h3>Walmart Doc Validator</h3>
                     <p>Validates Commercial Invoices vs Packing Lists instantly using AI logic.</p>
-                    <div class="metric">
-                        Time: 2 hrs &rarr; Seconds
-                    </div>
-                </div>
+                    <div class="metric">Time: 2 hrs &rarr; Seconds</div>
+                </a>
 
-                <div class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                <!-- CARD 2: Sheet Master -->
+                <a href="sheet_master.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="100">
                     <div class="card-top">
                         <i class="fas fa-table"></i>
                         <span class="card-tag">AI + VBA</span>
                     </div>
                     <h3>Sheet Master Updater</h3>
                     <p>Complex macro generated via Prompt Engineering to consolidate 5 daily reports.</p>
-                    <div class="metric">
-                        Time: 1 Hour &rarr; 2 Mins
-                    </div>
-                </div>
+                    <div class="metric">Time: 1 Hour &rarr; 2 Mins</div>
+                </a>
 
-                <div class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                <!-- CARD 3: Macy's -->
+                <a href="macys.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="200">
                     <div class="card-top">
                         <i class="fab fa-chrome"></i>
                         <span class="card-tag">Selenium</span>
                     </div>
                     <h3>Macy’s Portal Bot</h3>
                     <p>Used AI to handle complex dynamic web elements for a stable automation bot.</p>
-                    <div class="metric">
-                        Uptime: 100%
-                    </div>
-                </div>
+                    <div class="metric">Uptime: 100%</div>
+                </a>
 
-                <div class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="300">
+                <!-- CARD 4: Coupa -->
+                <a href="coupa.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="300">
                     <div class="card-top">
                         <i class="fas fa-file-pdf"></i>
                         <span class="card-tag">OCR + LLM</span>
                     </div>
                     <h3>Coupa Portal Automation</h3>
                     <p>Leveraged LLMs to interpret unstructured PDF data and convert it to structured JSON.</p>
-                    <div class="metric">
-                        Impact: Backlog Cleared
-                    </div>
-                </div>
+                    <div class="metric">Impact: Backlog Cleared</div>
+                </a>
 
-                <div class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="400">
+                <!-- CARD 5: WUSA -->
+                <a href="wusa.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="400">
                     <div class="card-top">
                         <i class="fas fa-folder-open"></i>
                         <span class="card-tag">OS Scripting</span>
                     </div>
                     <h3>WUSA Doc Management</h3>
                     <p>Automated file sorting logic. What takes a human 10 mins to code, I delivered in 30 seconds.</p>
-                    <div class="metric">
-                        500+ Files / Day
-                    </div>
-                </div>
+                    <div class="metric">500+ Files / Day</div>
+                </a>
 
-                <div class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="500">
+                <!-- CARD 6: DAMCO FCR (UPDATED) -->
+                <a href="damco.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="500">
                     <div class="card-top">
-                        <i class="fas fa-credit-card"></i>
-                        <span class="card-tag">Excel</span>
+                        <i class="fas fa-file-invoice"></i>
+                        <span class="card-tag">Web Automation</span>
                     </div>
-                    <h3>Payment Team Script</h3>
-                    <p>Generated a robust script to extract payment details and format Excel outputs.</p>
-                    <div class="metric">
-                        Manual Typing: 0%
-                    </div>
-                </div>
+                    <h3>Damco FCR Creation</h3>
+                    <p>Automated the generation of Forwarder's Cargo Receipts by extracting data from shipping portals.</p>
+                    <div class="metric">Time: 10 Mins &rarr; 30 Secs</div>
+                </a>
+
             </div>
         </div>
     </section>
@@ -338,7 +356,6 @@
       }
     </script>
 
-    <!-- Your Custom JS (Note: type="module" is crucial here) -->
     <script type="module" src="script.js"></script>
 
 </body>

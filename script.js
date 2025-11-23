@@ -1,13 +1,9 @@
-// --- 1. IMPORTS (Must be at top) ---
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// --- 2. GENERAL SITE ANIMATIONS ---
-
-// Initialize AOS
+// --- GENERAL SITE ANIMATIONS ---
 AOS.init({ duration: 800, once: false, mirror: false, offset: 100, easing: 'ease-out-cubic' });
 
-// Custom Cursor (Keeping the Ring)
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 const hoverTriggers = document.querySelectorAll('.hover-trigger');
@@ -27,7 +23,6 @@ if (cursorDot && cursorOutline) {
     });
 }
 
-// Timeline Scroll Animation
 const timelineObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) { entry.target.classList.add('active'); } 
@@ -39,7 +34,7 @@ const timelineItems = document.querySelectorAll('.active-on-scroll');
 timelineItems.forEach(item => { timelineObserver.observe(item); });
 
 
-// --- 3. BACKGROUND "LIVE WALLPAPER" (NO MOUSE INTERACTION) ---
+// --- BACKGROUND CANVAS ---
 const canvas = document.getElementById('canvas-bg');
 if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -47,7 +42,6 @@ if (canvas) {
     resizeCanvas();
 
     let particlesArray;
-
     class Particle {
         constructor(x, y, directionX, directionY, size, color) {
             this.x = x; this.y = y; 
@@ -61,11 +55,8 @@ if (canvas) {
             ctx.fill(); 
         }
         update() {
-            // Simple Bounce Logic (No Mouse Interaction)
             if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
             if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-
-            // Move particle
             this.x += this.directionX; 
             this.y += this.directionY; 
             this.draw();
@@ -74,15 +65,12 @@ if (canvas) {
 
     function initParticles() {
         particlesArray = [];
-        // Reduce number of particles on mobile for performance
         let divisor = (window.innerWidth < 768) ? 15000 : 9000;
         let numberOfParticles = (canvas.height * canvas.width) / divisor;
-        
         for (let i = 0; i < numberOfParticles; i++) {
             let size = (Math.random() * 2) + 1;
             let x = (Math.random() * ((window.innerWidth - size * 2) - (size * 2)) + size * 2);
             let y = (Math.random() * ((window.innerHeight - size * 2) - (size * 2)) + size * 2);
-            // Random speed
             let directionX = (Math.random() * 0.4) - 0.2;
             let directionY = (Math.random() * 0.4) - 0.2;
             particlesArray.push(new Particle(x, y, directionX, directionY, size, '#64ffda'));
@@ -94,7 +82,6 @@ if (canvas) {
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
                 let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                // Connect if close enough
                 if (distance < (canvas.width/7) * (canvas.height/7)) {
                     opacityValue = 1 - (distance/20000);
                     ctx.strokeStyle = 'rgba(100, 255, 218,' + opacityValue + ')';
@@ -115,46 +102,33 @@ if (canvas) {
         connect();
     }
 
-    window.addEventListener('resize', () => { 
-        resizeCanvas(); 
-        initParticles(); 
-    });
-    initParticles(); 
-    animateBg();
+    window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+    initParticles(); animateBg();
 }
 
-
-// --- 4. MOBILE MENU TOGGLE ---
+// --- MOBILE MENU ---
 const mobileBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
-
 if(mobileBtn) {
     mobileBtn.addEventListener('click', () => {
         navLinks.classList.toggle('active');
         const icon = mobileBtn.querySelector('i');
         if(navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
+            icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
         } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
         }
     });
 }
-
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         navLinks.classList.remove('active');
         const icon = mobileBtn.querySelector('i');
-        if(icon) {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
+        if(icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
     });
 });
 
-
-// --- 5. THREE.JS 3D CORE (Keeping the Brain) ---
+// --- 3D CORE ---
 const container = document.getElementById('ai-canvas');
 if (container) {
     let width = container.clientWidth;
@@ -232,18 +206,14 @@ if (container) {
             requestAnimationFrame(animate);
             controls.update(); 
             const time = clock.getElapsedTime();
-            
             const pulse = 1 + Math.sin(time * 2) * 0.05;
-            
             core.scale.set(pulse, pulse, pulse);
             wireframe.rotation.y = time * 0.1; wireframe.rotation.z = time * 0.05;
             shell.rotation.y = -time * 0.15;
-            
             const orbitSpeed = 1.5; 
             const orbitRadius = 1.6;
             satellite.position.x = Math.cos(time * orbitSpeed) * orbitRadius;
             satellite.position.y = Math.sin(time * orbitSpeed) * orbitRadius;
-            
             mainGroup.position.y = Math.sin(time) * 0.1;
             renderer.render(scene, camera);
         }
