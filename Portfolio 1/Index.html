@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Damania | Automation Architect</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Interactive Canvas Background -->
+    <canvas id="networkCanvas"></canvas>
+    
+    <!-- Custom Magnetic Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav>
+        <div class="logo">JD<span class="dot">_</span></div>
+        <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#comments">Feedback</a>
+            <a href="#contact" class="btn-nav">Contact</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="content">
+            <p class="mono-text">> Initializing Portfolio...</p>
+            <!-- Glitch Effect Name -->
+            <h1 class="glitch" data-text="JAY DAMANIA">JAY DAMANIA</h1>
+            <h2>Automation Architect & <span class="gradient-text">Business Analyst</span></h2>
+            <p class="hero-desc">
+                I build intelligent architectures that replace manual chaos.
+                <br><strong>Impact:</strong> 0.84 FTE Saved Annually.
+            </p>
+            
+            <div class="social-hub">
+                <a href="https://www.linkedin.com/in/jay-damania-7a2121288" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://wa.me/918469941001" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/jay.damania_02" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section id="work">
+        <div class="container">
+            <div class="section-head">
+                <span class="mono-text">01. // PROJECTS</span>
+                <h3>Engineered Reality</h3>
+            </div>
+
+            <!-- 3D Tilt Cards Container -->
+            <div class="card-grid">
+                
+                <!-- Card 1 -->
+                <div class="tilt-card" data-tilt>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-robot"></i></div>
+                        <h4>Walmart Doc Validator</h4>
+                        <p>Python system that validates invoices against packing lists using Regex & Pandas.</p>
+                        <div class="tags">
+                            <span>Python</span><span>Automation</span>
+                        </div>
+                        <a href="#" class="card-link">View Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="tilt-card" data-tilt>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-spider"></i></div>
+                        <h4>Macy’s Portal Bot</h4>
+                        <p>Selenium bot that handles complex web forms, reducing process time by 99.5%.</p>
+                        <div class="tags">
+                            <span>Selenium</span><span>Bot</span>
+                        </div>
+                        <a href="#" class="card-link">View Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="tilt-card" data-tilt>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-file-invoice"></i></div>
+                        <h4>Coupa Data Injector</h4>
+                        <p>Extracts coordinates from PDFs and injects structured data into Finance portals.</p>
+                        <div class="tags">
+                            <span>OCR</span><span>API</span>
+                        </div>
+                        <a href="#" class="card-link">View Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PUBLIC COMMENTS SECTION -->
+    <section id="comments">
+        <div class="container">
+            <div class="section-head">
+                <span class="mono-text">02. // WALL OF FEEDBACK</span>
+                <h3>Visitor Comments</h3>
+                <p style="color:#8892b0; margin-top:10px;">Leave a public comment on my work here.</p>
+            </div>
+            
+            <!-- Disqus Container -->
+            <div id="disqus_thread" class="comment-box"></div>
+            
+        </div>
+    </section>
+
+    <!-- PRIVATE CONTACT -->
+    <section id="contact">
+        <div class="container">
+            <div class="contact-box">
+                <div class="left">
+                    <h3>Get In Touch</h3>
+                    <p>Send a private message directly to my email.</p>
+                    <div class="info">
+                        <p><i class="fas fa-envelope"></i> jaydamania26@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +91 84699 41001</p>
+                    </div>
+                </div>
+                <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Write your message..." required></textarea>
+                    <button type="submit">Send Private Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Designed by Jay Damania © 2024</p>
+    </footer>
+
+    <!-- ANIMATION SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script>
+        // 1. Initialize 3D Tilt on Cards
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+
+        // 2. Particle Network Background Logic
+        const canvas = document.getElementById("networkCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = "#64ffda";
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 1) - 0.5;
+                let directionY = (Math.random() * 1) - 0.5;
+                let color = '#64ffda';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        function connect() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        ctx.strokeStyle = 'rgba(100, 255, 218, 0.1)';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        init();
+        animate();
+        window.addEventListener('resize', function(){
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+
+        // 3. Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+    </script>
+
+    <!-- 4. DISQUS CONFIGURATION (REQUIRED FOR PUBLIC COMMENTS) -->
+    <script>
+        var disqus_config = function () {
+            this.page.url = window.location.href;  
+            this.page.identifier = window.location.pathname; 
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.src = 'https://jay-damania-portfolio.disqus.com/embed.js'; // You will replace this URL later
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+/* Theme: Cyber High-End */
+:root {
+    --bg: #020c1b;
+    --card: rgba(23, 42, 69, 0.7);
+    --text: #8892b0;
+    --white: #e6f1ff;
+    --accent: #64ffda; /* Neon Cyan */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor for custom one */ }
+
+body {
+    background: var(--bg);
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* 1. Canvas Background */
+#networkCanvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    background: #0b0d14;
+}
+
+/* 2. Custom Cursor */
+.cursor, .cursor-follower {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+.cursor { width: 8px; height: 8px; background: var(--accent); }
+.cursor-follower { width: 30px; height: 30px; border: 1px solid var(--accent); transition: 0.1s; }
+
+/* 3. Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 50px;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+.logo { font-family: 'JetBrains Mono'; font-size: 24px; font-weight: bold; color: var(--accent); }
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.btn-nav { border: 1px solid var(--accent); padding: 8px 20px; border-radius: 4px; color: var(--accent) !important; }
+
+/* 4. Hero & Glitch Text */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.mono-text { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 14px; letter-spacing: 2px; }
+
+.glitch {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--white);
+    position: relative;
+    margin: 10px 0;
+}
+/* Glitch Animation Keyframes */
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--bg);
+}
+.glitch::before {
+    left: 2px; text-shadow: -1px 0 red;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+.glitch::after {
+    left: -2px; text-shadow: -1px 0 blue;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); }
+    100% { clip-path: inset(80% 0 20% 0); }
+}
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 90% 0); }
+    100% { clip-path: inset(90% 0 10% 0); }
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--accent), #007cf0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 5. Social Hub */
+.social-hub { margin-top: 30px; display: flex; justify-content: center; gap: 25px; }
+.social-hub a {
+    color: var(--text); font-size: 24px; transition: 0.3s;
+}
+.social-hub a:hover { color: var(--accent); transform: translateY(-5px); }
+
+/* 6. 3D Tilt Cards */
+#work { padding: 100px 0; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+.tilt-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+.card-content { transform: translateZ(20px); }
+.card-icon { font-size: 3rem; color: var(--accent); margin-bottom: 20px; }
+.tilt-card h4 { color: var(--white); font-size: 1.5rem; margin-bottom: 10px; }
+.tags span {
+    font-family: 'JetBrains Mono';
+    font-size: 12px;
+    color: var(--accent);
+    margin-right: 10px;
+}
+.card-link { display: inline-block; margin-top: 20px; color: var(--white); text-decoration: none; font-weight: bold; }
+.card-link:hover { color: var(--accent); }
+
+/* 7. Comment Section & Contact */
+.comment-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.contact-box {
+    display: flex;
+    gap: 50px;
+    background: var(--card);
+    padding: 50px;
+    border-radius: 10px;
+    margin-top: 50px;
+    border: 1px solid var(--accent);
+}
+.left { flex: 1; }
+.left h3 { color: var(--white); font-size: 2rem; }
+.info { margin-top: 30px; }
+.info p { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--white); }
+
+form { flex: 1.5; display: flex; flex-direction: column; gap: 15px; }
+input, textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid #333;
+    padding: 15px;
+    color: white;
+    border-radius: 5px;
+    outline: none;
+}
+input:focus, textarea:focus { border-color: var(--accent); }
+button {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+button:hover { background: #45a29e; transform: translateY(-2px); }
+
+/* Mobile */
+@media(max-width: 768px) {
+    .contact-box { flex-direction: column; }
+    .glitch { font-size: 3rem; }
+}

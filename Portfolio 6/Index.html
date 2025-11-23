@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Damania | AI Automation Architect</title>
+    
+    <!-- Animations Library (AOS) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === GLOBAL VARIABLES & RESET === */
+        :root {
+            --primary: #64ffda; /* Neon Green/Cyan */
+            --secondary: #bd93f9; /* Purple */
+            --vba-color: #217346; /* Excel Green */
+            --bg-dark: #0a192f;
+            --text: #ccd6f6;
+            --text-muted: #8892b0;
+            --font-main: 'Outfit', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* HIDE DEFAULT CURSOR */ }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text);
+            background: var(--bg-dark);
+            overflow-x: hidden;
+        }
+
+        /* === 1. CUSTOM CURSOR STYLES === */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--primary); }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid var(--primary); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(100, 255, 218, 0.1); border-color: transparent; }
+
+        /* === 2. BACKGROUND CANVAS === */
+        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #0a192f; }
+
+        /* === TYPOGRAPHY === */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .code-font { font-family: var(--font-code); color: var(--primary); font-size: 0.9rem; letter-spacing: 1px; }
+        h2 { font-size: 3rem; margin-bottom: 10px; font-weight: 700; color: #fff; }
+        .gradient-text { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-center { text-align: center; }
+
+        /* === NAVIGATION === */
+        nav { display: flex; justify-content: space-between; padding: 20px 50px; position: fixed; width: 100%; z-index: 1000; background: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); }
+        .logo { font-family: var(--font-code); font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .blink { animation: blink 1s infinite; } @keyframes blink { 50% { opacity: 0; } }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: #fff; text-decoration: none; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+        .nav-links a:hover { color: var(--primary); }
+        .btn-contact { border: 1px solid var(--primary); padding: 8px 20px; border-radius: 5px; color: var(--primary) !important; }
+
+        /* === HERO SECTION === */
+        .hero { height: 100vh; display: flex; align-items: center; text-align: center; padding-top: 60px; }
+        .hero h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero-badge { background: rgba(100, 255, 218, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px; font-family: 'JetBrains Mono'; }
+        .subtitle { font-size: 1.2rem; color: #8892b0; margin-bottom: 50px; }
+        .scroll-indicator { display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0.7; }
+        .mouse { width: 30px; height: 50px; border: 2px solid #fff; border-radius: 20px; position: relative; }
+        .wheel { width: 4px; height: 8px; background: #fff; border-radius: 2px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: scroll 2s infinite; } @keyframes scroll { 0% { top: 10px; opacity: 1; } 100% { top: 30px; opacity: 0; } }
+
+        /* === AI ADVANTAGE SECTION === */
+        .ai-section { padding: 150px 0; background: rgba(0,0,0,0.2); }
+        .ai-grid { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+        .ai-card {
+            background: linear-gradient(145deg, #112240, #0a192f); padding: 40px; border-radius: 15px; flex: 1; min-width: 280px; max-width: 350px;
+            border: 1px solid rgba(100, 255, 218, 0.1); transition: 0.3s; text-align: center;
+        }
+        .ai-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 0 25px rgba(100, 255, 218, 0.15); }
+        .ai-card i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+        .ai-card h3 { color: #fff; margin-bottom: 15px; font-size: 1.3rem; }
+        .ai-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+        /* === DASHBOARD MONITOR STYLES === */
+        .showcase-section { padding: 150px 0; }
+        .monitor-wrapper { margin: 50px auto; width: 100%; max-width: 900px; }
+        .monitor-header { background: #1d1d1d; padding: 10px 20px; border-radius: 10px 10px 0 0; display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .tab-title { color: #aaa; font-family: var(--font-code); font-size: 0.8rem; margin-left: 10px; }
+
+        /* Light Theme for Monitor */
+        .light-header { background: #e0e0e0; }
+        .light-header .tab-title { color: #333; }
+
+        .monitor-screen { border: 10px solid #333; border-top: none; border-radius: 0 0 10px 10px; height: auto; position: relative; overflow: hidden; }
+        .dashboard-img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        .monitor-screen:hover .dashboard-img { transform: scale(1.02); }
+        .screen-glare {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, transparent 40%); pointer-events: none; z-index: 2;
+        }
+        .monitor-stand { width: 150px; height: 40px; background: #222; margin: 0 auto; border-radius: 0 0 10px 10px; }
+        .spacer { height: 80px; }
+        .highlight { color: var(--primary); font-weight: bold; }
+        .project-desc { max-width: 800px; margin: 30px auto 0; color: var(--text-muted); line-height: 1.6; }
+        .project-desc h3 { color: #fff; font-size: 1.5rem; margin-bottom: 10px; }
+
+        /* === TIMELINE === */
+        .timeline-section { padding: 150px 0; }
+        .timeline-container { position: relative; max-width: 800px; margin: 50px auto; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 30px; }
+        .timeline-block { margin-bottom: 80px; position: relative; }
+        .marker { position: absolute; left: -39px; top: 5px; width: 16px; height: 16px; background: #0a192f; border: 2px solid var(--text-muted); border-radius: 50%; }
+        .marker.highlight { background: var(--primary); box-shadow: 0 0 15px var(--primary); border: none; }
+        .timeline-content { background: rgba(255,255,255,0.03); padding: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .timeline-content:hover { transform: translateX(10px); background: rgba(255,255,255,0.05); }
+        .glowing-border { border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(100,255,218,0.1); }
+        .date { display: block; font-family: var(--font-code); color: var(--secondary); margin: 10px 0; font-size: 0.85rem; }
+
+        /* === PROJECTS === */
+        .projects-section { padding: 150px 0; }
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
+        .project-card { background: #112240; padding: 30px; border-radius: 8px; transition: all 0.4s ease; border: 1px solid transparent; position: relative; overflow: hidden; }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: var(--text-muted); }
+        .project-card h3 { font-size: 1.2rem; margin-bottom: 10px; color: #fff; }
+        .metric { margin-top: 20px; font-family: var(--font-code); font-size: 0.8rem; background: rgba(0,0,0,0.3); padding: 8px; display: inline-block; border-radius: 4px; }
+        .python-style:hover { border-color: var(--primary); box-shadow: 0 10px 30px -10px rgba(100, 255, 218, 0.3); transform: translateY(-10px); }
+        .vba-style:hover { border-color: var(--vba-color); transform: translateY(-10px); background-color: #05150a; }
+
+        /* === AWARDS === */
+        .awards-section { padding: 100px 0; background: rgba(255,255,255,0.02); }
+        .awards-flex { display: flex; gap: 30px; margin-top: 50px; flex-wrap: wrap; justify-content: center; }
+        .award-item { background: #0a192f; padding: 40px; text-align: center; border-radius: 8px; border: 1px solid #333; flex: 1; min-width: 250px; max-width: 350px; transition: 0.3s; }
+        .award-item i { font-size: 3rem; color: gold; margin-bottom: 20px; }
+        .award-item:hover { transform: scale(1.05); border-color: gold; }
+
+        /* === CONTACT === */
+        footer { padding: 100px 0 50px; text-align: center; }
+        .contact-box { max-width: 600px; margin: 0 auto; background: #112240; padding: 50px; border-radius: 10px; }
+        form { display: flex; flex-direction: column; gap: 15px; margin: 30px 0; }
+        input, textarea { background: #0a192f; border: 1px solid #333; padding: 15px; color: #fff; border-radius: 4px; outline: none; }
+        input:focus, textarea:focus { border-color: var(--primary); }
+        button { background: var(--primary); color: #0a192f; border: none; padding: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        button:hover { opacity: 0.8; }
+        .footer-links a { margin: 0 15px; color: var(--text-muted); text-decoration: none; }
+        .footer-links a:hover { color: var(--primary); }
+        .copyright { margin-top: 50px; font-size: 0.8rem; color: #555; }
+
+        /* === MOBILE === */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .hero { padding-top: 80px; }
+            .nav-links { display: none; }
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. CUSTOM CURSOR ELEMENTS -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- 2. UNIQUE BACKGROUND ANIMATION (Neural Network) -->
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Jay.D<span class="blink">_</span></div>
+        <ul class="nav-links">
+            <li><a href="#ai-method" class="hover-trigger">AI Method</a></li>
+            <li><a href="#dashboards" class="hover-trigger">Analytics</a></li>
+            <li><a href="#projects" class="hover-trigger">Work</a></li>
+            <li><a href="#contact" class="btn-contact hover-trigger">Hire Me</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <!-- CHANGED: "ROI/FTE" to "Hours Saved" -->
+            <div class="hero-badge" data-aos="fade-down">Impact: 1,750+ Hours Saved Yearly</div>
+            
+            <h1 data-aos="zoom-in" data-aos-duration="1000">
+                AI-Augmented<br>
+                <span class="gradient-text">Automation Architect</span>
+            </h1>
+
+            <!-- CHANGED: Simplified explanation of what you do -->
+            <p class="subtitle" data-aos="fade-up" data-aos-delay="200">
+                I build smart bots that do the boring work for you.
+                <br>Combining logic with <strong>AI Prompting</strong> to build and fix automation tools at <strong>10x the speed</strong>.
+            </p>
+            
+            <div class="scroll-indicator">
+                <span>See How I Work</span>
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- === SECTION 1: THE AI ADVANTAGE === -->
+    <section id="ai-method" class="ai-section">
+        <div class="container">
+            <div class="section-title center" data-aos="zoom-in">
+                <span class="code-font">01. MY METHODOLOGY</span>
+                <h2>The AI Advantage</h2>
+            </div>
+            
+            <div class="ai-grid">
+                <div class="ai-card hover-trigger" data-aos="fade-up">
+                    <i class="fas fa-brain"></i>
+                    <!-- CHANGED: Clearer title -->
+                    <h3>AI Prompt Mastery</h3>
+                    <p>I don't just write code; I orchestrate it. I use precise prompts to generate complex scripts instantly, saving weeks of manual typing.</p>
+                </div>
+                <div class="ai-card hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>10x Deployment Speed</h3>
+                    <p>While traditional devs spend days debugging, I leverage AI to build, test, and refine automations in mere hours.</p>
+                </div>
+                <div class="ai-card hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-cogs"></i>
+                    <!-- CHANGED: Explaining "Hybrid" simply -->
+                    <h3>Human Logic + AI Speed</h3>
+                    <p>AI writes the code, but I provide the strategy. This combination bridges the gap between a "cool idea" and a working tool.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === SECTION 2: ENTERPRISE DASHBOARDS === -->
+    <section id="dashboards" class="showcase-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-right">
+                <span class="code-font">02. DATA INTELLIGENCE</span>
+                <h2>Live Data Dashboards</h2>
+            </div>
+
+            <!-- DASHBOARD 1: MFSG -->
+            <div class="monitor-wrapper" data-aos="zoom-in-up">
+                <div class="monitor-header">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    <span class="tab-title">MFSG_Production_Live.pbix</span>
+                </div>
+                <div class="monitor-screen dark-screen">
+                    <!-- MAKE SURE YOU HAVE AN IMAGE NAMED mfsg.png IN THE SAME FOLDER -->
+                    <img src="mfsg.png" alt="MFSG Dashboard" class="dashboard-img">
+                    <div class="screen-glare"></div>
+                </div>
+                <div class="monitor-stand"></div>
+            </div>
+            
+            <div class="project-desc text-center" data-aos="fade-up">
+                <h3>MFSG Production Performance</h3>
+                <p>Real-time tracking system. <span class="highlight">Built using AI-assisted formulas</span> to calculate complex deadlines instantly.</p>
+            </div>
+
+            <div class="spacer"></div>
+
+            <!-- DASHBOARD 2: WELSPUN -->
+            <div class="monitor-wrapper" data-aos="zoom-in-up">
+                <div class="monitor-header light-header">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    <span class="tab-title">Walmart_Tracker.xlsx</span>
+                </div>
+                <div class="monitor-screen light-screen">
+                     <!-- MAKE SURE YOU HAVE AN IMAGE NAMED welspun.png IN THE SAME FOLDER -->
+                    <img src="welspun.png" alt="Welspun Dashboard" class="dashboard-img">
+                    <div class="screen-glare"></div>
+                </div>
+                <div class="monitor-stand"></div>
+            </div>
+
+            <div class="project-desc text-center" data-aos="fade-up">
+                <h3>Welspun: Walmart Tracker</h3>
+                <p>Visualizes Order Counts & Deadlines. <span class="highlight">Logic structured by me, Code optimized by AI.</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- === SECTION 3: EXPERIENCE TIMELINE === -->
+    <section id="journey" class="timeline-section">
+        <div class="container">
+            <div class="section-title right" data-aos="fade-left">
+                <span class="code-font">03. PROFESSIONAL JOURNEY</span>
+                <h2>Strategic Implementation</h2>
+            </div>
+
+            <div class="timeline-container">
+                <!-- Item 1 -->
+                <div class="timeline-block" data-aos="fade-up">
+                    <div class="marker"></div>
+                    <div class="timeline-content hover-trigger">
+                        <h3>The Foundation</h3>
+                        <span class="date">MFSG Garments (Internship)</span>
+                        <p>Mastered the manual workflows first. This domain knowledge allows me to give AI the <strong>perfect context</strong> to build solutions.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="timeline-block" data-aos="fade-up">
+                    <div class="marker highlight"></div>
+                    <div class="timeline-content glowing-border hover-trigger">
+                        <h3>The Breakthrough</h3>
+                        <span class="date">Welspun (Month 3)</span>
+                        <p>Used AI to fast-track my learning of Python. Delivered a <strong>Document Validation System</strong> in weeks that usually takes months.</p>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="timeline-block" data-aos="fade-up">
+                    <div class="marker"></div>
+                    <div class="timeline-content hover-trigger">
+                        <h3>The Impact</h3>
+                        <span class="date">Welspun (Month 8)</span>
+                        <!-- CHANGED: "0.84 FTE" to "85% Workload" -->
+                        <p>Delivered 12 major bots. Automated <strong>85% of a full-time employee's workload</strong> so the team could focus on real work.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === SECTION 4: PROJECT GRID === -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-title center" data-aos="zoom-in">
+                <span class="code-font">04. AI-POWERED DELIVERABLES</span>
+                <h2>Engineered Solutions</h2>
+            </div>
+
+            <div class="grid-layout">
+
+                <!-- Project 1 -->
+                <div class="project-card python-style hover-trigger" data-aos="fade-up">
+                    <div class="card-top">
+                        <i class="fab fa-python"></i>
+                        <span>AI + Python</span>
+                    </div>
+                    <h3>Walmart USA Doc Validator</h3>
+                    <p>Logic defined by me, scripted by AI. Validates Commercial Invoices vs Packing Lists instantly.</p>
+                    <div class="metric">Time: 2 hrs &rarr; Seconds</div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card vba-style hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-top">
+                        <i class="fas fa-table"></i>
+                        <span>AI + VBA</span>
+                    </div>
+                    <h3>Bot Sheet Master Updater</h3>
+                    <p>Complex macro generated via Prompt Engineering to consolidate 5 daily reports.</p>
+                    <div class="metric">Time: 1 Hour &rarr; 2 Mins</div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card python-style hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-top">
+                        <i class="fab fa-python"></i>
+                        <span>AI + Selenium</span>
+                    </div>
+                    <h3>Macy’s Portal Bot</h3>
+                    <p>Used AI to handle complex dynamic web elements for a stable browser automation bot.</p>
+                    <!-- CHANGED: "Efficiency" to "Crashes/Uptime" -->
+                    <div class="metric">Crashes: 0% | Uptime: 100%</div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card python-style hover-trigger" data-aos="fade-up">
+                    <div class="card-top">
+                        <i class="fab fa-python"></i>
+                        <span>AI + OCR</span>
+                    </div>
+                    <h3>Coupa Portal Automation</h3>
+                    <p>Leveraged LLMs to interpret unstructured PDF data and convert it to structured JSON.</p>
+                    <div class="metric">Impact: Backlog Cleared</div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card python-style hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-top">
+                        <i class="fab fa-python"></i>
+                        <span>AI + OS</span>
+                    </div>
+                    <h3>WUSA Doc Management</h3>
+                    <p>Automated file sorting logic. What takes a human 10 mins to code, I delivered in 30 seconds.</p>
+                    <!-- CHANGED: "Zero Errors" to "Files Sorted" -->
+                    <div class="metric">Files Sorted: 500+ Per Day</div>
+                </div>
+
+                 <!-- Project 6 -->
+                 <div class="project-card python-style hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-top">
+                        <i class="fab fa-python"></i>
+                        <span>AI + Excel</span>
+                    </div>
+                    <h3>Payment Team Script</h3>
+                    <p>Generated a robust script to extract payment details and format Excel outputs.</p>
+                    <div class="metric">Manual Typing: 0%</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- === SECTION 5: AWARDS === -->
+    <section id="awards" class="awards-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-right">
+                <span class="code-font">05. RECOGNITION</span>
+                <h2>Hall of Fame</h2>
+            </div>
+            <div class="awards-flex">
+                <div class="award-item hover-trigger" data-aos="flip-up">
+                    <i class="fas fa-trophy"></i>
+                    <h3>HATTRICK @ Tech Friday</h3>
+                    <p>Presented 4 automations back-to-back to the CEO.</p>
+                </div>
+                <div class="award-item hover-trigger" data-aos="flip-up" data-aos-delay="100">
+                    <i class="fas fa-star"></i>
+                    <h3>2x Young Talent Award</h3>
+                    <p>Awarded twice in < 1 year for innovation.</p>
+                </div>
+                <div class="award-item hover-trigger" data-aos="flip-up" data-aos-delay="200">
+                    <i class="fas fa-certificate"></i>
+                    <h3>Six Sigma Certified</h3>
+                    <p>Yellow & White Belt Process Excellence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <footer id="contact">
+        <div class="container">
+            <div class="contact-box" data-aos="zoom-in">
+                <h2>Ready to Automate?</h2>
+                <!-- CHANGED: Call to action is more direct -->
+                <p>Hire a developer who delivers 10x faster than the competition.</p>
+                
+                <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required class="hover-trigger">
+                    <input type="email" name="email" placeholder="Your Email" required class="hover-trigger">
+                    <textarea name="message" rows="4" placeholder="How can I help you?" required class="hover-trigger"></textarea>
+                    <button type="submit" class="btn-submit hover-trigger">Send Message</button>
+                </form>
+
+                <div class="footer-links">
+                    <a href="https://www.linkedin.com/in/jay-damania-7a2121288" class="hover-trigger">LinkedIn</a>
+                    <a href="https://github.com/" class="hover-trigger">GitHub</a>
+                    <a href="mailto:jaydamania26@gmail.com" class="hover-trigger">jaydamania26@gmail.com</a>
+                </div>
+            </div>
+            <p class="copyright">Designed by Jay Damania © 2024</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // 1. Init Scroll Animations
+        AOS.init({ duration: 1000, once: false, mirror: true });
+
+        // 2. Custom Magnetic Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        hoverTriggers.forEach(link => {
+            link.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
+            link.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
+        });
+
+        // 3. Neural Network Background (Canvas)
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas();
+
+        let particlesArray;
+        let mouse = { x: null, y: null, radius: (canvas.height/80) * (canvas.width/80) }
+        window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.color = color;
+            }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = '#64ffda'; ctx.fill(); }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                let dx = mouse.x - this.x; let dy = mouse.y - this.y; let distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < mouse.radius + this.size){
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 10;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 10;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 10;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 10;
+                }
+                this.x += this.directionX; this.y += this.directionY; this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.5) - 0.25;
+                let directionY = (Math.random() * 0.5) - 0.25;
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, '#64ffda'));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); }
+            connect();
+        }
+
+        function connect() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        let opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(100, 255, 218,' + opacityValue + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(particlesArray[a].x, particlesArray[a].y); ctx.lineTo(particlesArray[b].x, particlesArray[b].y); ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', () => { resizeCanvas(); mouse.radius = ((canvas.height/80) * (canvas.height/80)); init(); });
+        init(); animate();
+    </script>
+</body>
+</html>
