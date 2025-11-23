@@ -11,6 +11,13 @@
     --easing: cubic-bezier(0.19, 1, 0.22, 1); 
 }
 
+/* CRITICAL FIX: Prevent Horizontal Scroll Globally */
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
 body {
@@ -20,7 +27,6 @@ body {
     background-color: #020c1b;
     background-image: radial-gradient(ellipse at center, #0d192e 0%, #020c1b 90%);
     background-attachment: fixed; 
-    overflow-x: hidden;
     min-height: 100vh;
 }
 
@@ -187,12 +193,12 @@ nav {
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
 }
 
-/* === PROJECT GRID (UPDATED LAYOUT FOR SYMBOLS) === */
+/* === PROJECT GRID === */
 .projects-section { padding: 150px 0; }
 .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 50px; }
 
 .project-card { 
-    background: rgba(10, 25, 47, 0.7); /* Deep Navy */
+    background: rgba(10, 25, 47, 0.7); 
     padding: 35px 30px; 
     border-radius: 6px; 
     transition: all 0.25s var(--easing); 
@@ -207,35 +213,12 @@ nav {
     box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.9);
 }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
-
-/* Specific Project Icons */
 .project-card i { font-size: 2.2rem; color: var(--primary); }
-
-/* Tags in Top Right */
-.card-tag { 
-    font-family: var(--font-code); font-size: 0.75rem; 
-    color: var(--text-muted); letter-spacing: 0.5px;
-    margin-top: 5px; 
-}
-
-.project-card h3 { 
-    font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; 
-    color: #fff; transition: 0.3s;
-}
+.card-tag { font-family: var(--font-code); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 5px; }
+.project-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: #fff; transition: 0.3s; }
 .project-card:hover h3 { color: var(--primary); }
-.project-card p { 
-    color: var(--text-muted); font-size: 1rem; line-height: 1.6; 
-    margin-bottom: 25px; min-height: 80px; 
-}
-
-/* Metrics Bottom */
-.metric { 
-    font-family: var(--font-code); 
-    font-size: 0.8rem; 
-    color: var(--primary); 
-    display: inline-block; 
-    letter-spacing: 0.5px;
-}
+.project-card p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 25px; min-height: 80px; }
+.metric { font-family: var(--font-code); font-size: 0.8rem; color: var(--primary); display: inline-block; letter-spacing: 0.5px; }
 
 /* === AWARDS === */
 .awards-section { padding: 100px 0; background: rgba(255,255,255,0.0); }
@@ -295,20 +278,7 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
 .copyright { margin-top: 50px; font-size: 0.8rem; color: #555; }
 
 /* ==================================================
-   === RESPONSIVE DESIGN (TABLET & MOBILE) ===
-   ================================================== */
-
-/* TABLET (up to 1024px) */
-@media (max-width: 1024px) {
-    .container { padding: 0 30px; }
-    nav { padding: 20px 30px; }
-    .hero h1 { font-size: 3.5rem; }
-    .grid-layout { grid-template-columns: repeat(2, 1fr); } /* 2 columns for tablet */
-    .timeline-block { padding-left: 60px; }
-}
-
-/* ==================================================
-   === MOBILE & TABLET MEDIA QUERIES (UPDATED) ===
+   === TABLET & MOBILE MEDIA QUERIES (UPDATED) ===
    ================================================== */
 
 /* TABLET (up to 1024px) */
@@ -320,70 +290,108 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
     .timeline-block { padding-left: 60px; }
 }
 
-/* MOBILE (up to 768px) */
+/* MOBILE (up to 768px - OnePlus 8T range) */
 @media (max-width: 768px) {
-    /* 1. Global Touch Adjustments */
+    /* 1. Global Touch Adjustments & Overflow Safety */
     * { cursor: auto; }
     .cursor-dot, .cursor-outline { display: none; }
-    .container { padding: 0 20px; }
-
-    /* 2. FULL SCREEN CENTERED MENU */
-    nav { padding: 0 20px; height: 80px; }
     
-    /* Hamburger Icon */
+    .container { 
+        padding: 0 20px; 
+        width: 100%;
+        overflow: hidden; /* Cuts off elements causing horizontal scroll */
+    }
+
+    /* 2. NAVIGATION BAR */
+    nav { 
+        padding: 0 25px;
+        height: 70px; 
+        justify-content: space-between; /* Ensures logo left, burger right */
+    }
+    
+    .logo { font-size: 1.3rem; }
+
+    /* Hamburger Icon Alignment */
     .mobile-menu-btn { 
         display: block; 
         color: var(--primary); 
-        font-size: 2rem; 
+        font-size: 1.8rem; 
         cursor: pointer; 
-        z-index: 2000; /* Above the menu */
+        z-index: 2000;
+        margin-left: auto; /* Force to right */
     }
     
-    /* The Menu Overlay */
+    /* Full Screen Menu Overlay */
     .nav-links {
         position: fixed; 
-        top: 0; 
-        left: 0; /* Start at left edge */
-        width: 100%; /* Full Width */
-        height: 100vh; /* Full Height */
-        background: #020c1b; /* Solid Background Color */
-        
-        display: flex;
+        top: 0; left: 0; 
+        width: 100%; height: 100vh; 
+        background: #020c1b; 
         flex-direction: column; 
-        justify-content: center; /* Center Vertically */
-        align-items: center;     /* Center Horizontally */
-        gap: 40px;               /* Space between links */
-        
-        transform: translateX(100%); /* Hide to the right */
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        justify-content: center; 
+        align-items: center;     
+        gap: 30px;               
+        transform: translateX(100%); 
+        transition: transform 0.3s ease-in-out;
         z-index: 1500;
+        padding: 0;
     }
     
-    /* When Active (Open) */
     .nav-links.active { right: 0; transform: translateX(0); }
+    .nav-links a { font-size: 1.4rem; }
 
-    .nav-links a { font-size: 1.5rem; } /* Bigger text on mobile */
+    /* 3. HERO & TYPOGRAPHY FIXES (Center Alignment) */
+    .hero { 
+        padding-top: 80px; 
+        height: auto; 
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Vertical Center */
+        align-items: center;     /* Horizontal Center */
+    }
 
-    /* 3. Typography & Hero */
-    .hero { padding-top: 80px; }
-    .hero h1 { font-size: 2.8rem; }
-    h2 { font-size: 2.2rem; }
-    .subtitle { font-size: 1rem; }
+    .hero h1 { 
+        font-size: 2.5rem; /* Reduced to fit mobile width */
+        line-height: 1.2;
+        width: 100%;
+        word-wrap: break-word; /* Prevents "Automation" from widening screen */
+    }
+    
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 6px 15px;
+        margin-bottom: 15px;
+        white-space: nowrap; 
+    }
 
-    /* 4. Layout Stacking */
+    h2 { font-size: 2rem; text-align: center; }
+    .subtitle { font-size: 1rem; padding: 0 10px; }
+
+    /* 4. LAYOUT STACKING */
     .grid-layout { grid-template-columns: 1fr; }
     .awards-flex { flex-direction: column; }
-    .ai-canvas-box { width: 300px; height: 300px; }
+    
+    /* Resize 3D Canvas container */
+    .ai-canvas-box { 
+        width: 280px; 
+        height: 280px; 
+        margin: 0 auto;
+    }
 
-    /* 5. Timeline Mobile Fixes */
-    .timeline-container::before { left: 15px; } 
-    .timeline-block { padding-left: 50px; margin-bottom: 40px; }
-    .marker { left: 6px; width: 18px; height: 18px; } 
-    .connector { display: block; width: 0; left: 20px; top: 32px; } 
-    .timeline-block.active .connector { width: 30px; } 
+    /* 5. TIMELINE FIXES */
+    .timeline-container::before { left: 10px; } 
+    .timeline-block { padding-left: 40px; margin-bottom: 40px; }
+    .marker { left: 1px; width: 18px; height: 18px; } 
+    .connector { left: 15px; top: 32px; width: 0; display: block; } 
+    .timeline-block.active .connector { width: 25px; } 
 
-    /* 6. Disable Hovers */
+    /* 6. DISABLE HOVERS & ANIMATIONS */
     .project-card p { min-height: auto; }
     .project-card:hover { transform: none; } 
     .award-item:hover { transform: none; }
+    
+    /* Contact Form Fixes */
+    .contact-box { padding: 30px 20px; }
+    .input-group input, .input-group textarea { font-size: 1rem; }
 }
