@@ -1,0 +1,5 @@
+GitHub push command
+
+git add .
+git commit -m "xyz"
+git push
