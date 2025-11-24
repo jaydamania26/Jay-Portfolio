@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 /* =========================================
-   1. GLOBAL & MOBILE DETECTION
+   1. GLOBAL & ANIMATIONS
    ========================================= */
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
@@ -32,7 +32,7 @@ if (cursorDot && cursorOutline && !isMobile) {
 }
 
 /* =========================================
-   3. CANVAS BACKGROUND (LAG FIX APPLIED)
+   3. CANVAS BACKGROUND (ULTRA QUALITY)
    ========================================= */
 const canvas = document.getElementById('canvas-bg');
 if (canvas) {
@@ -42,9 +42,8 @@ if (canvas) {
 
     let particlesArray;
     
-    // LAG FIX: Drastically reduce particles on mobile
-    // Desktop: ~130 particles | Mobile: ~30 particles
-    const particleDivisor = isMobile ? 25000 : 9000; 
+    // ULTRA QUALITY SETTING: Same high particle count for mobile and desktop
+    const particleDivisor = 9000; 
 
     class Particle {
         constructor(x, y, directionX, directionY, size, color) {
@@ -81,10 +80,9 @@ if (canvas) {
     }
 
     function connect() {
-        // LAG FIX: Skip expensive distance calculation entirely on mobile if particles are too far
-        // Or just limit connection distance significantly
         let opacityValue = 1;
-        let connectDistance = isMobile ? (canvas.width/10) * (canvas.height/10) : (canvas.width/7) * (canvas.height/7);
+        // ULTRA QUALITY SETTING: Long connection distance even on mobile
+        let connectDistance = (canvas.width/7) * (canvas.height/7);
 
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
@@ -107,7 +105,6 @@ if (canvas) {
         requestAnimationFrame(animateBg);
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); }
-        // LAG FIX: Optional - disable connect() entirely on very old phones if needed
         connect();
     }
 
@@ -140,7 +137,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 });
 
 /* =========================================
-   5. 3D CORE (LAG FIX APPLIED)
+   5. 3D CORE (ULTRA QUALITY)
    ========================================= */
 const container = document.getElementById('ai-canvas');
 if (container) {
@@ -152,11 +149,13 @@ if (container) {
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         camera.position.z = 2.8; 
 
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile }); // Disable AA on mobile
+        // ULTRA QUALITY: Anti-alias enabled on all devices
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); 
         renderer.setSize(width, height);
         
-        // LAG FIX: Cap pixel ratio to 1 on mobile to prevent overheating
-        renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+        // ULTRA QUALITY: Use full device pixel ratio (sharpest possible image)
+        // On a OnePlus 8T, this is likely 3.0 or higher.
+        renderer.setPixelRatio(window.devicePixelRatio); 
         
         container.appendChild(renderer.domElement);
 
@@ -183,8 +182,8 @@ if (container) {
         const shell = new THREE.Mesh(shellGeometry, shellMaterial);
         mainGroup.add(shell);
 
-        // LAG FIX: Reduce particles in 3D scene on mobile
-        const particleCount = isMobile ? 300 : 1000;
+        // ULTRA QUALITY: Full particle count on all devices
+        const particleCount = 1000;
         const pGeometry = new THREE.BufferGeometry();
         const pPositions = [];
         for(let i = 0; i < particleCount; i++) {
