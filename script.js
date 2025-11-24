@@ -154,7 +154,6 @@ if (container) {
         renderer.setSize(width, height);
         
         // ULTRA QUALITY: Use full device pixel ratio (sharpest possible image)
-        // On a OnePlus 8T, this is likely 3.0 or higher.
         renderer.setPixelRatio(window.devicePixelRatio); 
         
         container.appendChild(renderer.domElement);

@@ -68,16 +68,33 @@
         </div>
     </header>
 
-    <!-- ABOUT / STORY SECTION -->
-    <section class="container text-center" style="padding: 0 20px 80px;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 25px;" data-aos="fade-up">The Human Behind The Code</h2>
-        <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem;" data-aos="fade-up" data-aos-delay="100">
-            I started as a Trainee at Welspun, looking at spreadsheets and thinking, <em>"There has to be a better way."</em> 
-            Within 3 months, I built a <strong>Document Validation System</strong> that redefined our workflow.
-            <br><br>
-            Today, I leverage <strong>Artificial Intelligence</strong> to code faster and smarter. My philosophy is simple: 
-            If a computer <em>can</em> do it, a human <em>shouldn't</em> have to. I build the logic that makes that possible.
-        </p>
+    <!-- ABOUT / STORY SECTION (UPDATED WITH GIF) -->
+    <section class="container" style="padding: 0 20px 80px;">
+        <div class="about-wrapper">
+            
+            <!-- Left Side: Text -->
+            <div class="about-text" data-aos="fade-right">
+                <h2 style="font-size: 2.5rem; margin-bottom: 25px;">The Human Behind The Code</h2>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                    I started as a Trainee at Welspun, looking at spreadsheets and thinking, 
+                    <span style="color: var(--primary);">"There has to be a better way."</span> 
+                    Within 3 months, I built a <strong>Document Validation System</strong> that redefined our workflow.
+                    <br><br>
+                    Today, I leverage <strong>Artificial Intelligence</strong> to code faster and smarter. My philosophy is simple: 
+                    If a computer <em>can</em> do it, a human <em>shouldn't</em> have to. I build the logic that makes that possible.
+                </p>
+            </div>
+
+            <!-- Right Side: GIF -->
+            <div class="about-visual" data-aos="fade-left" data-aos-delay="200">
+                <div class="gif-frame">
+                    <!-- High Quality Cyberpunk Coding GIF -->
+                    <img src="my-animation.gif" alt="Coding Automation" class="cyber-gif">
+                    <div class="scanline"></div>
+                </div>
+            </div>
+
+        </div>
     </section>
 
     <!-- 3D CORE SECTION -->
@@ -301,14 +318,17 @@
                     <div class="input-group" data-aos="fade-up" data-aos-delay="300">
                         <input type="text" name="name" id="name" required autocomplete="off">
                         <label for="name">Your Name</label>
+                        <span class="glow-bar"></span>
                     </div>
                     <div class="input-group" data-aos="fade-up" data-aos-delay="400">
                         <input type="email" name="email" id="email" required autocomplete="off">
                         <label for="email">Your Email</label>
+                        <span class="glow-bar"></span>
                     </div>
                     <div class="input-group" data-aos="fade-up" data-aos-delay="500">
                         <textarea name="message" id="message" rows="4" required autocomplete="off"></textarea>
                         <label for="message">What process needs fixing?</label>
+                        <span class="glow-bar"></span>
                     </div>
                     <button type="submit" class="btn-submit hover-trigger" data-aos="zoom-in" data-aos-delay="600">
                         Send Message
