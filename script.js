@@ -10,61 +10,7 @@ const isMobile = window.matchMedia("(max-width: 768px)").matches;
 AOS.init({ duration: 800, once: false, mirror: false, offset: 100, easing: 'ease-out-cubic' });
 
 /* =========================================
-   2. PERSONAL VAULT LOGIC
-   ========================================= */
-const vaultBtn = document.getElementById('vault-btn');
-const vaultModal = document.getElementById('vault-modal');
-const closeVault = document.getElementById('close-vault');
-const unlockBtn = document.getElementById('unlock-btn');
-const pinInput = document.getElementById('vault-pin');
-const lockScreen = document.getElementById('vault-lock-screen');
-const filesScreen = document.getElementById('vault-files');
-const errorMsg = document.getElementById('error-msg');
-
-// Open Modal
-if(vaultBtn) {
-    vaultBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        vaultModal.classList.add('active');
-        if(!isMobile) pinInput.focus();
-    });
-}
-
-// Close Modal
-if(closeVault) {
-    closeVault.addEventListener('click', () => {
-        vaultModal.classList.remove('active');
-        // Reset state on close
-        setTimeout(() => {
-            errorMsg.textContent = "";
-            pinInput.value = "";
-        }, 300);
-    });
-}
-
-// Passcode Check Logic
-function checkPasscode() {
-    if (pinInput.value === "846994") {
-        lockScreen.style.display = 'none';
-        filesScreen.style.display = 'block'; // Show files
-        errorMsg.textContent = "";
-    } else {
-        errorMsg.textContent = "Access Denied. Invalid Passcode.";
-        pinInput.classList.add('shake');
-        setTimeout(() => pinInput.classList.remove('shake'), 500);
-        pinInput.value = "";
-    }
-}
-
-if(unlockBtn) unlockBtn.addEventListener('click', checkPasscode);
-if(pinInput) {
-    pinInput.addEventListener('keypress', (e) => {
-        if(e.key === 'Enter') checkPasscode();
-    });
-}
-
-/* =========================================
-   3. CUSTOM CURSOR (DESKTOP ONLY)
+   2. CUSTOM CURSOR (DESKTOP ONLY)
    ========================================= */
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
@@ -86,7 +32,7 @@ if (cursorDot && cursorOutline && !isMobile) {
 }
 
 /* =========================================
-   4. CANVAS BACKGROUND (LAG FIX APPLIED)
+   3. CANVAS BACKGROUND (LAG FIX APPLIED)
    ========================================= */
 const canvas = document.getElementById('canvas-bg');
 if (canvas) {
@@ -170,7 +116,7 @@ if (canvas) {
 }
 
 /* =========================================
-   5. MOBILE MENU INTERACTION
+   4. MOBILE MENU INTERACTION
    ========================================= */
 const mobileBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
@@ -187,8 +133,6 @@ if(mobileBtn) {
 }
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
-        // Don't close if clicking vault button
-        if(link.id === 'vault-btn') return; 
         navLinks.classList.remove('active');
         const icon = mobileBtn.querySelector('i');
         if(icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
@@ -196,7 +140,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 });
 
 /* =========================================
-   6. 3D CORE (LAG FIX APPLIED)
+   5. 3D CORE (LAG FIX APPLIED)
    ========================================= */
 const container = document.getElementById('ai-canvas');
 if (container) {
@@ -257,6 +201,22 @@ if (container) {
         const particles = new THREE.Points(pGeometry, pMaterial);
         mainGroup.add(particles);
 
+        const satGeo = new THREE.SphereGeometry(0.08, 16, 16);
+        const satMat = new THREE.MeshBasicMaterial({ color: 0x64ffda });
+        const satellite = new THREE.Mesh(satGeo, satMat);
+        
+        const orbitRingGeo = new THREE.TorusGeometry(1.6, 0.005, 16, 100);
+        const orbitRingMat = new THREE.MeshBasicMaterial({ color: 0x64ffda, opacity: 0.2, transparent: true });
+        const orbitRing = new THREE.Mesh(orbitRingGeo, orbitRingMat);
+        orbitRing.rotation.x = Math.PI / 2;
+        
+        const satelliteGroup = new THREE.Group();
+        satelliteGroup.add(satellite);
+        satelliteGroup.add(orbitRing);
+        satelliteGroup.rotation.z = Math.PI / 4; 
+        satelliteGroup.rotation.x = Math.PI / 6;
+        scene.add(satelliteGroup);
+
         const clock = new THREE.Clock();
 
         function animate() {
@@ -269,7 +229,10 @@ if (container) {
             core.scale.set(pulse, pulse, pulse);
             wireframe.rotation.y = time * 0.1; wireframe.rotation.z = time * 0.05;
             shell.rotation.y = -time * 0.15;
-            
+            const orbitSpeed = 1.5; 
+            const orbitRadius = 1.6;
+            satellite.position.x = Math.cos(time * orbitSpeed) * orbitRadius;
+            satellite.position.y = Math.sin(time * orbitSpeed) * orbitRadius;
             mainGroup.position.y = Math.sin(time) * 0.1;
             renderer.render(scene, camera);
         }
