@@ -1,14 +1,76 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// --- GENERAL SITE ANIMATIONS ---
+/* =========================================
+   1. GLOBAL & MOBILE DETECTION
+   ========================================= */
+const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+// Init Animations
 AOS.init({ duration: 800, once: false, mirror: false, offset: 100, easing: 'ease-out-cubic' });
 
+/* =========================================
+   2. PERSONAL VAULT LOGIC
+   ========================================= */
+const vaultBtn = document.getElementById('vault-btn');
+const vaultModal = document.getElementById('vault-modal');
+const closeVault = document.getElementById('close-vault');
+const unlockBtn = document.getElementById('unlock-btn');
+const pinInput = document.getElementById('vault-pin');
+const lockScreen = document.getElementById('vault-lock-screen');
+const filesScreen = document.getElementById('vault-files');
+const errorMsg = document.getElementById('error-msg');
+
+// Open Modal
+if(vaultBtn) {
+    vaultBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        vaultModal.classList.add('active');
+        if(!isMobile) pinInput.focus();
+    });
+}
+
+// Close Modal
+if(closeVault) {
+    closeVault.addEventListener('click', () => {
+        vaultModal.classList.remove('active');
+        // Reset state on close
+        setTimeout(() => {
+            errorMsg.textContent = "";
+            pinInput.value = "";
+        }, 300);
+    });
+}
+
+// Passcode Check Logic
+function checkPasscode() {
+    if (pinInput.value === "846994") {
+        lockScreen.style.display = 'none';
+        filesScreen.style.display = 'block'; // Show files
+        errorMsg.textContent = "";
+    } else {
+        errorMsg.textContent = "Access Denied. Invalid Passcode.";
+        pinInput.classList.add('shake');
+        setTimeout(() => pinInput.classList.remove('shake'), 500);
+        pinInput.value = "";
+    }
+}
+
+if(unlockBtn) unlockBtn.addEventListener('click', checkPasscode);
+if(pinInput) {
+    pinInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') checkPasscode();
+    });
+}
+
+/* =========================================
+   3. CUSTOM CURSOR (DESKTOP ONLY)
+   ========================================= */
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 const hoverTriggers = document.querySelectorAll('.hover-trigger');
 
-if (cursorDot && cursorOutline) {
+if (cursorDot && cursorOutline && !isMobile) {
     window.addEventListener('mousemove', (e) => {
         const posX = e.clientX; 
         const posY = e.clientY;
@@ -23,18 +85,9 @@ if (cursorDot && cursorOutline) {
     });
 }
 
-const timelineObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('active'); } 
-        else { entry.target.classList.remove('active'); }
-    });
-}, { threshold: 0.5, rootMargin: "0px 0px -20% 0px" });
-
-const timelineItems = document.querySelectorAll('.active-on-scroll');
-timelineItems.forEach(item => { timelineObserver.observe(item); });
-
-
-// --- BACKGROUND CANVAS ---
+/* =========================================
+   4. CANVAS BACKGROUND (LAG FIX APPLIED)
+   ========================================= */
 const canvas = document.getElementById('canvas-bg');
 if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -42,6 +95,11 @@ if (canvas) {
     resizeCanvas();
 
     let particlesArray;
+    
+    // LAG FIX: Drastically reduce particles on mobile
+    // Desktop: ~130 particles | Mobile: ~30 particles
+    const particleDivisor = isMobile ? 25000 : 9000; 
+
     class Particle {
         constructor(x, y, directionX, directionY, size, color) {
             this.x = x; this.y = y; 
@@ -65,8 +123,7 @@ if (canvas) {
 
     function initParticles() {
         particlesArray = [];
-        let divisor = (window.innerWidth < 768) ? 15000 : 9000;
-        let numberOfParticles = (canvas.height * canvas.width) / divisor;
+        let numberOfParticles = (canvas.height * canvas.width) / particleDivisor;
         for (let i = 0; i < numberOfParticles; i++) {
             let size = (Math.random() * 2) + 1;
             let x = (Math.random() * ((window.innerWidth - size * 2) - (size * 2)) + size * 2);
@@ -78,11 +135,16 @@ if (canvas) {
     }
 
     function connect() {
+        // LAG FIX: Skip expensive distance calculation entirely on mobile if particles are too far
+        // Or just limit connection distance significantly
         let opacityValue = 1;
+        let connectDistance = isMobile ? (canvas.width/10) * (canvas.height/10) : (canvas.width/7) * (canvas.height/7);
+
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
                 let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                if (distance < (canvas.width/7) * (canvas.height/7)) {
+                
+                if (distance < connectDistance) {
                     opacityValue = 1 - (distance/20000);
                     ctx.strokeStyle = 'rgba(100, 255, 218,' + opacityValue + ')';
                     ctx.lineWidth = 1;
@@ -99,6 +161,7 @@ if (canvas) {
         requestAnimationFrame(animateBg);
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); }
+        // LAG FIX: Optional - disable connect() entirely on very old phones if needed
         connect();
     }
 
@@ -106,7 +169,9 @@ if (canvas) {
     initParticles(); animateBg();
 }
 
-// --- MOBILE MENU ---
+/* =========================================
+   5. MOBILE MENU INTERACTION
+   ========================================= */
 const mobileBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
 if(mobileBtn) {
@@ -122,13 +187,17 @@ if(mobileBtn) {
 }
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
+        // Don't close if clicking vault button
+        if(link.id === 'vault-btn') return; 
         navLinks.classList.remove('active');
         const icon = mobileBtn.querySelector('i');
         if(icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
     });
 });
 
-// --- 3D CORE ---
+/* =========================================
+   6. 3D CORE (LAG FIX APPLIED)
+   ========================================= */
 const container = document.getElementById('ai-canvas');
 if (container) {
     let width = container.clientWidth;
@@ -139,9 +208,12 @@ if (container) {
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         camera.position.z = 2.8; 
 
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile }); // Disable AA on mobile
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        // LAG FIX: Cap pixel ratio to 1 on mobile to prevent overheating
+        renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+        
         container.appendChild(renderer.domElement);
 
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -167,7 +239,8 @@ if (container) {
         const shell = new THREE.Mesh(shellGeometry, shellMaterial);
         mainGroup.add(shell);
 
-        const particleCount = 1000;
+        // LAG FIX: Reduce particles in 3D scene on mobile
+        const particleCount = isMobile ? 300 : 1000;
         const pGeometry = new THREE.BufferGeometry();
         const pPositions = [];
         for(let i = 0; i < particleCount; i++) {
@@ -184,36 +257,19 @@ if (container) {
         const particles = new THREE.Points(pGeometry, pMaterial);
         mainGroup.add(particles);
 
-        const satGeo = new THREE.SphereGeometry(0.08, 16, 16);
-        const satMat = new THREE.MeshBasicMaterial({ color: 0x64ffda });
-        const satellite = new THREE.Mesh(satGeo, satMat);
-        
-        const orbitRingGeo = new THREE.TorusGeometry(1.6, 0.005, 16, 100);
-        const orbitRingMat = new THREE.MeshBasicMaterial({ color: 0x64ffda, opacity: 0.2, transparent: true });
-        const orbitRing = new THREE.Mesh(orbitRingGeo, orbitRingMat);
-        orbitRing.rotation.x = Math.PI / 2;
-        
-        const satelliteGroup = new THREE.Group();
-        satelliteGroup.add(satellite);
-        satelliteGroup.add(orbitRing);
-        satelliteGroup.rotation.z = Math.PI / 4; 
-        satelliteGroup.rotation.x = Math.PI / 6;
-        scene.add(satelliteGroup);
-
         const clock = new THREE.Clock();
 
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
             const time = clock.getElapsedTime();
+            
+            // Animation logic
             const pulse = 1 + Math.sin(time * 2) * 0.05;
             core.scale.set(pulse, pulse, pulse);
             wireframe.rotation.y = time * 0.1; wireframe.rotation.z = time * 0.05;
             shell.rotation.y = -time * 0.15;
-            const orbitSpeed = 1.5; 
-            const orbitRadius = 1.6;
-            satellite.position.x = Math.cos(time * orbitSpeed) * orbitRadius;
-            satellite.position.y = Math.sin(time * orbitSpeed) * orbitRadius;
+            
             mainGroup.position.y = Math.sin(time) * 0.1;
             renderer.render(scene, camera);
         }
@@ -229,3 +285,14 @@ if (container) {
     }
     initNeuralCore();
 }
+
+// Timeline Scroll Observer
+const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('active'); } 
+        else { entry.target.classList.remove('active'); }
+    });
+}, { threshold: 0.5, rootMargin: "0px 0px -20% 0px" });
+
+const timelineItems = document.querySelectorAll('.active-on-scroll');
+timelineItems.forEach(item => { timelineObserver.observe(item); });
