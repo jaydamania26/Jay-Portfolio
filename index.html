@@ -191,9 +191,11 @@
         <div class="container">
             <div class="section-title text-center" data-aos="fade-up">
                 <span class="code-font">04. MY CAREER PATH</span>
-                <h2>From Intern to Specialist</h2>
+                <h2>Evolution of a Specialist</h2>
             </div>
             <div class="timeline-container">
+                
+                <!-- 1. INTERNSHIP -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-right">
@@ -204,6 +206,8 @@
                         <p>This is where I learned the pain of manual work. I managed orders, quality control, and logistics manually.</p>
                     </div>
                 </div>
+
+                <!-- 2. TRAINEE -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-left" data-aos-delay="100">
@@ -214,16 +218,37 @@
                         <p>Joined as a Trainee. Without being asked, I built a <strong>Document Validation System</strong> to automate checking errors.</p>
                     </div>
                 </div>
+
+                <!-- 3. MANUAL HANDLING -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-right" data-aos-delay="200">
                          <div class="content-header">
-                            <h3>The Architect</h3>
-                            <span class="company-name">Automation Specialist @ Welspun (Present)</span>
+                            <h3>Peak Operations</h3>
+                            <span class="company-name">Account Handler (Month 1-4)</span>
                         </div>
-                        <p>I have now delivered <strong>12+ major bots</strong> (Walmart, Macy's, Coupa). I saved <strong>0.84 FTE</strong> and won the "Tech Friday" Hattrick award.</p>
+                        <p>
+                            I was manually handling 3 major customers: <strong>Walmart USA, Walmart Canada, and ASDA</strong>.
+                            I was also prepared to take on a 4th account: <strong>JLP</strong>.
+                        </p>
                     </div>
                 </div>
+
+                <!-- 4. THE PIVOT -->
+                <div class="timeline-block active-on-scroll">
+                    <div class="marker"></div>
+                    <div class="timeline-content hover-trigger" data-aos="fade-left" data-aos-delay="300">
+                         <div class="content-header">
+                            <h3>The Strategic Shift</h3>
+                            <span class="company-name">Automation Specialist @ Welspun (Present)</span>
+                        </div>
+                        <p>
+                            Management decided to <strong>remove all 4 customers</strong> from my workload. 
+                            My mandate changed completely: I now focus <strong>100% on Automation</strong> to build digital solutions for the team.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -268,11 +293,12 @@
                     <p>Automatically merges, sorts, and places files in the correct server folders. Zero manual effort.</p>
                     <div class="metric">Instant Organization</div>
                 </a>
+                <!-- CARD 6: CHANGED TO STATUS OF DAMCO -->
                 <a href="damco.pptx" class="project-card hover-trigger" data-aos="fade-up" data-aos-delay="500">
-                    <div class="card-top"><i class="fas fa-ship"></i><span class="card-tag">Web Scraping</span></div>
-                    <h3>Damco FCR Creation</h3>
-                    <p>Auto-generates Cargo Receipts on the Damco portal and shoots emails to the correct stakeholders.</p>
-                    <div class="metric">55 Mins &rarr; 30 Secs</div>
+                    <div class="card-top"><i class="fas fa-satellite-dish"></i><span class="card-tag">Live Status Bot</span></div>
+                    <h3>Status of Damco</h3>
+                    <p>Auto-extracts real-time cargo status from the Damco portal. Keeps the master tracker 100% updated.</p>
+                    <div class="metric">Manual &rarr; Automated</div>
                 </a>
             </div>
         </div>
@@ -343,6 +369,18 @@
             <p class="copyright">Designed by Jay Damania © 2024</p>
         </div>
     </footer>
+
+    <!-- DOWNLOAD CONFIRMATION MODAL -->
+    <div id="download-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title"><i class="fas fa-file-download"></i> Initialize Download?</h3>
+            <p id="modal-message">Do you really want to download this file? <br><span style="font-size:0.8em; color: #8892b0;">Action cannot be undone.</span></p>
+            <div class="modal-actions">
+                <button id="btn-cancel" class="modal-btn cancel">Abort</button>
+                <button id="btn-confirm" class="modal-btn confirm">Confirm & Download</button>
+            </div>
+        </div>
+    </div>
 
     <!-- AOS Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

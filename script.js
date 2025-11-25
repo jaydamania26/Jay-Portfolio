@@ -257,3 +257,41 @@ const timelineObserver = new IntersectionObserver((entries) => {
 
 const timelineItems = document.querySelectorAll('.active-on-scroll');
 timelineItems.forEach(item => { timelineObserver.observe(item); });
+
+/* =========================================
+   6. DOWNLOAD MODAL LOGIC (ADDED)
+   ========================================= */
+const modal = document.getElementById('download-modal');
+const confirmBtn = document.getElementById('btn-confirm');
+const cancelBtn = document.getElementById('btn-cancel');
+let targetLink = null;
+
+if(modal) {
+    // Select all Resume and Project links (ending in .pdf or .pptx)
+    document.querySelectorAll('a[href$=".pdf"], a[href$=".pptx"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop download
+            targetLink = link.getAttribute('href'); // Store link
+            modal.classList.add('active'); // Show modal
+        });
+    });
+
+    // Close on Cancel
+    cancelBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        targetLink = null;
+    });
+
+    // Download on Confirm
+    confirmBtn.addEventListener('click', () => {
+        if(targetLink) {
+            window.open(targetLink, '_blank');
+            modal.classList.remove('active');
+        }
+    });
+
+    // Close on Outside Click
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) modal.classList.remove('active');
+    });
+}
