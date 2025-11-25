@@ -592,9 +592,18 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
         max-width: 100%;
     }
 
-    /* 5. LAYOUT STACKING */
+    /* 5. LAYOUT STACKING & AWARDS FIX */
     .grid-layout { grid-template-columns: 1fr; }
-    .awards-flex { flex-direction: column; }
+    
+    .awards-flex { 
+        flex-direction: column; 
+        align-items: center; /* FIX: Centers cards horizontally */
+    }
+    
+    .award-item {
+        width: 100%; /* FIX: Ensures card takes full available width */
+        margin: 0 auto; /* FIX: Backup centering */
+    }
     
     /* Resize 3D Canvas container */
     .ai-canvas-box { 
