@@ -543,4 +543,16 @@ footer { padding: 100px 0 50px; text-align: center; }
     .marker { left: 1px; }
     
     h2 { font-size: 2rem; }
+
+    /* Contact Section - Font Fixes */
+    .contact-box { padding: 30px 20px; }
+    .contact-box h2 { font-size: 1.8rem; }
+    .contact-box p { 
+        font-size: 0.95rem; /* Smaller font for "Ready to transform..." */
+        line-height: 1.5;
+        margin-bottom: 25px;
+    } 
+    
+    .input-group input, .input-group textarea { font-size: 1rem; }
+    .modal-content { width: 85%; padding: 30px 20px; }
 }
