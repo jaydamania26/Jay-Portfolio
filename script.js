@@ -224,25 +224,51 @@ window.addEventListener('load', () => {
     }
 
     /* =========================================
-       4. MOBILE MENU & DOWNLOAD MODAL
+       4. MOBILE MENU & DOWNLOAD MODAL (UPDATED)
        ========================================= */
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
+    
+    // 1. Open/Close Menu on Button Click
     if(mobileBtn) {
         mobileBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             const icon = mobileBtn.querySelector('i');
-            navLinks.classList.contains('active') ? (icon.classList.remove('fa-bars'), icon.classList.add('fa-times')) : (icon.classList.remove('fa-times'), icon.classList.add('fa-bars'));
+            if(navLinks.classList.contains('active')){
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
     }
+
+    // 2. CLOSE MENU WHEN ANY LINK IS CLICKED (This fixes your issue)
+    const menuItems = document.querySelectorAll('.nav-links a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                const icon = mobileBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
+
+    // 3. Download Modal Logic
     const modal = document.getElementById('download-modal');
     const confirmBtn = document.getElementById('btn-confirm');
     const cancelBtn = document.getElementById('btn-cancel');
     let targetLink = null;
+    
     if(modal) {
         document.querySelectorAll('a[href$=".pdf"], a[href$=".pptx"]').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault(); targetLink = link.getAttribute('href'); modal.classList.add('active'); 
+                e.preventDefault(); 
+                targetLink = link.getAttribute('href'); 
+                modal.classList.add('active'); 
             });
         });
         if(cancelBtn) cancelBtn.addEventListener('click', () => { modal.classList.remove('active'); targetLink = null; });
@@ -250,6 +276,7 @@ window.addEventListener('load', () => {
         modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
     }
     
+    // Scroll Animation
     const timelineObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) { entry.target.classList.add('active'); } 
