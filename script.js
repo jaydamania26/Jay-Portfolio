@@ -4,35 +4,11 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 /* =========================================
    1. GLOBAL & ANIMATIONS
    ========================================= */
-const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
 // Init Animations
 AOS.init({ duration: 800, once: false, mirror: false, offset: 100, easing: 'ease-out-cubic' });
 
 /* =========================================
-   2. CUSTOM CURSOR (DESKTOP ONLY)
-   ========================================= */
-const cursorDot = document.querySelector('.cursor-dot');
-const cursorOutline = document.querySelector('.cursor-outline');
-const hoverTriggers = document.querySelectorAll('.hover-trigger');
-
-if (cursorDot && cursorOutline && !isMobile) {
-    window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX; 
-        const posY = e.clientY;
-        cursorDot.style.left = `${posX}px`; 
-        cursorDot.style.top = `${posY}px`;
-        cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
-    });
-
-    hoverTriggers.forEach(link => {
-        link.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
-        link.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
-    });
-}
-
-/* =========================================
-   3. CANVAS BACKGROUND (ULTRA QUALITY)
+   2. CANVAS BACKGROUND (PRO CODER EDITION)
    ========================================= */
 const canvas = document.getElementById('canvas-bg');
 if (canvas) {
@@ -42,19 +18,26 @@ if (canvas) {
 
     let particlesArray;
     
-    // ULTRA QUALITY SETTING: Same high particle count for mobile and desktop
-    const particleDivisor = 9000; 
+    // SYNTAX HIGHLIGHTING PALETTE (VSCode / Dracula Theme)
+    const codeColors = [
+        '#58a6ff', // Function Blue
+        '#79c0ff', // Variable Light Blue
+        '#d2a8ff', // Keyword Purple
+        '#ff7b72', // Error Red
+        '#7ee787'  // String Green
+    ];
 
     class Particle {
         constructor(x, y, directionX, directionY, size, color) {
             this.x = x; this.y = y; 
             this.directionX = directionX; this.directionY = directionY; 
-            this.size = size; this.color = color;
+            this.size = size; 
+            this.color = color;
         }
         draw() { 
             ctx.beginPath(); 
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); 
-            ctx.fillStyle = '#64ffda'; 
+            ctx.fillStyle = this.color; 
             ctx.fill(); 
         }
         update() {
@@ -68,20 +51,25 @@ if (canvas) {
 
     function initParticles() {
         particlesArray = [];
-        let numberOfParticles = (canvas.height * canvas.width) / particleDivisor;
+        // Slight reduction for a cleaner "clean code" look
+        let numberOfParticles = (canvas.height * canvas.width) / 10000; 
+        
         for (let i = 0; i < numberOfParticles; i++) {
-            let size = (Math.random() * 2) + 1;
+            let size = (Math.random() * 2) + 0.5; // Smaller, sharp dots
             let x = (Math.random() * ((window.innerWidth - size * 2) - (size * 2)) + size * 2);
             let y = (Math.random() * ((window.innerHeight - size * 2) - (size * 2)) + size * 2);
             let directionX = (Math.random() * 0.4) - 0.2;
             let directionY = (Math.random() * 0.4) - 0.2;
-            particlesArray.push(new Particle(x, y, directionX, directionY, size, '#64ffda'));
+            
+            // Randomly select a code syntax color
+            let randomColor = codeColors[Math.floor(Math.random() * codeColors.length)];
+            
+            particlesArray.push(new Particle(x, y, directionX, directionY, size, randomColor));
         }
     }
 
     function connect() {
         let opacityValue = 1;
-        // ULTRA QUALITY SETTING: Long connection distance even on mobile
         let connectDistance = (canvas.width/7) * (canvas.height/7);
 
         for (let a = 0; a < particlesArray.length; a++) {
@@ -90,8 +78,9 @@ if (canvas) {
                 
                 if (distance < connectDistance) {
                     opacityValue = 1 - (distance/20000);
-                    ctx.strokeStyle = 'rgba(100, 255, 218,' + opacityValue + ')';
-                    ctx.lineWidth = 1;
+                    // Lines are subtle gray (like code indents/guides)
+                    ctx.strokeStyle = 'rgba(139, 148, 158,' + (opacityValue * 0.5) + ')'; 
+                    ctx.lineWidth = 0.5;
                     ctx.beginPath(); 
                     ctx.moveTo(particlesArray[a].x, particlesArray[a].y); 
                     ctx.lineTo(particlesArray[b].x, particlesArray[b].y); 
@@ -113,7 +102,7 @@ if (canvas) {
 }
 
 /* =========================================
-   4. MOBILE MENU INTERACTION
+   3. MOBILE MENU INTERACTION
    ========================================= */
 const mobileBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
@@ -137,7 +126,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 });
 
 /* =========================================
-   5. 3D CORE (ULTRA QUALITY)
+   4. 3D CORE (ULTRA QUALITY)
    ========================================= */
 const container = document.getElementById('ai-canvas');
 if (container) {
@@ -152,8 +141,6 @@ if (container) {
         // ULTRA QUALITY: Anti-alias enabled on all devices
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); 
         renderer.setSize(width, height);
-        
-        // ULTRA QUALITY: Use full device pixel ratio (sharpest possible image)
         renderer.setPixelRatio(window.devicePixelRatio); 
         
         container.appendChild(renderer.domElement);
@@ -181,7 +168,6 @@ if (container) {
         const shell = new THREE.Mesh(shellGeometry, shellMaterial);
         mainGroup.add(shell);
 
-        // ULTRA QUALITY: Full particle count on all devices
         const particleCount = 1000;
         const pGeometry = new THREE.BufferGeometry();
         const pPositions = [];
@@ -222,7 +208,6 @@ if (container) {
             controls.update(); 
             const time = clock.getElapsedTime();
             
-            // Animation logic
             const pulse = 1 + Math.sin(time * 2) * 0.05;
             core.scale.set(pulse, pulse, pulse);
             wireframe.rotation.y = time * 0.1; wireframe.rotation.z = time * 0.05;
@@ -259,7 +244,7 @@ const timelineItems = document.querySelectorAll('.active-on-scroll');
 timelineItems.forEach(item => { timelineObserver.observe(item); });
 
 /* =========================================
-   6. DOWNLOAD MODAL LOGIC (ADDED)
+   5. DOWNLOAD MODAL LOGIC (ADDED)
    ========================================= */
 const modal = document.getElementById('download-modal');
 const confirmBtn = document.getElementById('btn-confirm');
@@ -267,22 +252,19 @@ const cancelBtn = document.getElementById('btn-cancel');
 let targetLink = null;
 
 if(modal) {
-    // Select all Resume and Project links (ending in .pdf or .pptx)
     document.querySelectorAll('a[href$=".pdf"], a[href$=".pptx"]').forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault(); // Stop download
-            targetLink = link.getAttribute('href'); // Store link
-            modal.classList.add('active'); // Show modal
+            e.preventDefault(); 
+            targetLink = link.getAttribute('href'); 
+            modal.classList.add('active'); 
         });
     });
 
-    // Close on Cancel
     cancelBtn.addEventListener('click', () => {
         modal.classList.remove('active');
         targetLink = null;
     });
 
-    // Download on Confirm
     confirmBtn.addEventListener('click', () => {
         if(targetLink) {
             window.open(targetLink, '_blank');
@@ -290,7 +272,6 @@ if(modal) {
         }
     });
 
-    // Close on Outside Click
     modal.addEventListener('click', (e) => {
         if(e.target === modal) modal.classList.remove('active');
     });

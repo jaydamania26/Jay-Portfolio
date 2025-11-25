@@ -2,10 +2,10 @@
 :root {
     --primary: #64ffda; /* Neon Green/Cyan */
     --secondary: #bd93f9; /* Purple */
-    --bg-dark: #0a192f;
-    --bg-card: #112240;
-    --text: #ccd6f6;
-    --text-muted: #8892b0;
+    --bg-dark: #0d1117; /* GitHub/VSCode Dark */
+    --bg-card: #161b22; /* Darker Card */
+    --text: #c9d1d9; /* Code text color */
+    --text-muted: #8b949e;
     --font-main: 'Outfit', sans-serif;
     --font-code: 'JetBrains Mono', monospace;
     --easing: cubic-bezier(0.19, 1, 0.22, 1); 
@@ -18,35 +18,28 @@ html, body {
     position: relative;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+/* --- HIDE SCROLLBARS GLOBALLY (Laptop & Mobile) --- */
+body::-webkit-scrollbar { display: none; }
+body { -ms-overflow-style: none; scrollbar-width: none; }
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === UPDATED BODY: Clean Technical Grid === */
 body {
     font-family: var(--font-main);
     color: var(--text);
-    /* Deep Space Background */
-    background-color: #020c1b;
-    background-image: radial-gradient(ellipse at center, #0d192e 0%, #020c1b 90%);
-    background-attachment: fixed; 
+    
+    /* VS Code / GitHub Dark Dimmed Background */
+    background-color: var(--bg-dark);
+    
+    /* Technical Grid Pattern (Engineering Vibe) */
+    background-image: 
+        linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px), 
+        linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
+    
     min-height: 100vh;
-}
-
-/* === 1. CUSTOM CURSOR STYLES === */
-.cursor-dot, .cursor-outline {
-    position: fixed; top: 0; left: 0;
-    transform: translate(-50%, -50%);
-    border-radius: 50%; z-index: 9999; pointer-events: none;
-}
-.cursor-dot { width: 8px; height: 8px; background-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
-.cursor-outline { 
-    width: 40px; height: 40px; 
-    border: 1px solid rgba(100, 255, 218, 0.5); 
-    transition: width 0.2s, height 0.2s, background-color 0.2s; 
-}
-body.hovering .cursor-outline { 
-    width: 70px; height: 70px; 
-    background-color: rgba(100, 255, 218, 0.05); 
-    border-color: var(--primary);
-    box-shadow: 0 0 30px rgba(100, 255, 218, 0.1);
 }
 
 /* === 2. BACKGROUND CANVAS === */
@@ -62,9 +55,9 @@ h2 { font-size: 3rem; margin-bottom: 10px; font-weight: 700; color: #fff; }
 /* === NAVIGATION === */
 nav { 
     display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; position: fixed; width: 100%; z-index: 1000; 
-    background: rgba(2, 12, 27, 0.85); 
+    background: rgba(13, 17, 23, 0.85); 
     backdrop-filter: blur(15px); transition: 0.3s; 
-    border-bottom: 1px solid rgba(100,255,218,0.05);
+    border-bottom: 1px solid rgba(48, 54, 61, 0.7);
 }
 .logo { font-family: var(--font-code); font-size: 1.5rem; font-weight: bold; color: var(--primary); z-index: 1002; }
 .blink { animation: blink 1s infinite; } @keyframes blink { 50% { opacity: 0; } }
@@ -87,7 +80,7 @@ nav {
     padding: 8px 20px; border-radius: 20px; display: inline-block; margin-bottom: 20px; font-family: 'JetBrains Mono'; transition: 0.3s;
 }
 .hero-badge:hover { background: rgba(100, 255, 218, 0.15); transform: scale(1.05); box-shadow: 0 0 20px rgba(100, 255, 218, 0.2); }
-.subtitle { font-size: 1.2rem; color: #8892b0; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.subtitle { font-size: 1.2rem; color: #8b949e; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
 .scroll-indicator { display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0.7; margin-top: 40px; }
 .mouse { width: 30px; height: 50px; border: 2px solid #fff; border-radius: 20px; position: relative; }
 .wheel { width: 4px; height: 8px; background: #fff; border-radius: 2px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: scroll 2s infinite; } @keyframes scroll { 0% { top: 10px; opacity: 1; } 100% { top: 30px; opacity: 0; } }
@@ -119,8 +112,8 @@ nav {
     max-width: 450px;
     border-radius: 12px;
     padding: 10px;
-    background: rgba(17, 34, 64, 0.6);
-    border: 1px solid rgba(100, 255, 218, 0.2);
+    background: rgba(22, 27, 34, 0.8);
+    border: 1px solid rgba(48, 54, 61, 0.7);
     box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7);
     overflow: hidden;
     backdrop-filter: blur(5px);
@@ -141,20 +134,13 @@ nav {
     opacity: 0.9;
 }
 
-/* CRT Scanline Effect Overlay */
 .scanline {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0) 50%,
-        rgba(0, 0, 0, 0.2) 50%,
-        rgba(0, 0, 0, 0.2)
-    );
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
     background-size: 100% 4px;
     pointer-events: none;
     z-index: 2;
@@ -178,10 +164,10 @@ nav {
 .ai-section { padding: 150px 0; background: rgba(255, 255, 255, 0.0); }
 .ai-grid { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
 .ai-card {
-    background: rgba(10, 25, 47, 0.7);
+    background: rgba(22, 27, 34, 0.8);
     backdrop-filter: blur(10px);
     padding: 40px; border-radius: 15px; flex: 1; min-width: 280px; max-width: 350px;
-    border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
+    border: 1px solid rgba(48, 54, 61, 0.6); position: relative; overflow: hidden;
     transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing);
 }
 .ai-card::before {
@@ -233,14 +219,14 @@ nav {
 }
 .marker { 
     position: absolute; left: 11px; top: 25px; width: 20px; height: 20px; 
-    background: #020c1b; border: 2px solid var(--text-muted); border-radius: 50%; 
+    background: var(--bg-dark); border: 2px solid var(--text-muted); border-radius: 50%; 
     z-index: 3; transition: all 0.4s ease;
 }
 .timeline-content { 
-    background: rgba(10, 25, 47, 0.7); padding: 25px 30px; border-radius: 4px; 
+    background: rgba(22, 27, 34, 0.8); padding: 25px 30px; border-radius: 4px; 
     border-left: 2px solid transparent; backdrop-filter: blur(5px);
     transition: all 0.4s var(--easing); position: relative;
-    border: 1px solid rgba(255,255,255,0.02);
+    border: 1px solid rgba(48, 54, 61, 0.6);
 }
 .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
 .timeline-content h3 { font-size: 1.4rem; color: #fff; margin: 0; }
@@ -258,7 +244,7 @@ nav {
     width: 50px; box-shadow: 0 0 10px var(--primary);
 }
 .timeline-block:hover .timeline-content, .timeline-block.active .timeline-content {
-    transform: translateX(10px); background: #112240; border-left: 2px solid var(--primary);
+    transform: translateX(10px); background: #161b22; border-left: 2px solid var(--primary);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
 }
 
@@ -266,34 +252,29 @@ nav {
 .projects-section { padding: 150px 0; }
 .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 50px; }
 
-/* --- Base Card Style --- */
-/* Changed to 'a' tag behavior reset */
 a.project-card {
-    text-decoration: none; color: inherit; display: block; cursor: none;
+    text-decoration: none; color: inherit; display: block; cursor: default;
 }
-a.project-card:hover { cursor: none; }
 
 .project-card { 
-    background: rgba(10, 25, 47, 0.7); 
+    background: rgba(22, 27, 34, 0.8); 
     padding: 35px 30px; 
     border-radius: 6px; 
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(48, 54, 61, 0.6);
     position: relative; overflow: hidden; z-index: 1;
     backdrop-filter: blur(5px);
     box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
     transition: all 0.3s var(--easing);
 }
 
-/* --- GLOBAL ICON ANIMATION (The "WUSA" Pop Effect for Everyone) --- */
+/* --- GLOBAL ICON ANIMATION --- */
 .project-card i { 
     font-size: 2.2rem; 
     color: var(--primary); 
     transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.3s;
     position: relative;
-    z-index: 5; /* Ensure icon sits above its own glow */
+    z-index: 5;
 }
-
-/* The Glow Bubble (Hidden by default) */
 .project-card i::after {
     content: '';
     position: absolute;
@@ -303,20 +284,15 @@ a.project-card:hover { cursor: none; }
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.4s ease, height 0.4s ease;
-    z-index: -1; /* Behind the icon */
+    z-index: -1;
 }
-
-/* Hover Effect: Pop Up, Rotate, and Glow */
 .project-card:hover i {
     transform: scale(1.4) translateY(-10px) rotate(-10deg);
     color: #fff;
     text-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
-.project-card:hover i::after {
-    width: 80px; height: 80px; /* Expands the glow */
-}
+.project-card:hover i::after { width: 80px; height: 80px; }
 
-/* --- Common Text Styles --- */
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
 .card-tag { font-family: var(--font-code); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 5px; }
 .project-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: #fff; transition: 0.3s; }
@@ -324,11 +300,7 @@ a.project-card:hover { cursor: none; }
 .project-card p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 25px; min-height: 80px; }
 .metric { font-family: var(--font-code); font-size: 0.8rem; color: var(--primary); display: inline-block; letter-spacing: 0.5px; }
 
-/* =========================================
-   === UNIQUE CREATIVE ANIMATIONS PER CARD ===
-   ========================================= */
-
-/* --- CARD 1: Walmart (Python) -> "THE PYTHON BORDER" --- */
+/* === UNIQUE CARD ANIMATIONS === */
 .grid-layout .project-card:nth-child(1)::before,
 .grid-layout .project-card:nth-child(1)::after {
     content: ''; position: absolute; width: 0; height: 0;
@@ -337,24 +309,18 @@ a.project-card:hover { cursor: none; }
 }
 .grid-layout .project-card:nth-child(1)::before { top: 0; left: 0; }
 .grid-layout .project-card:nth-child(1)::after { bottom: 0; right: 0; }
-
 .grid-layout .project-card:nth-child(1):hover { background: rgba(100, 255, 218, 0.05); }
 .grid-layout .project-card:nth-child(1):hover::before { width: 100%; height: 100%; border-top-color: var(--primary); border-right-color: var(--primary); }
 .grid-layout .project-card:nth-child(1):hover::after { width: 100%; height: 100%; border-bottom-color: var(--primary); border-left-color: var(--primary); transition-delay: 0.2s; }
 
-
-/* --- CARD 2: Sheet Master (VBA) -> "THE TABLE SCAN" --- */
 .grid-layout .project-card:nth-child(2)::before {
-    content: ''; position: absolute; top: 0; left: -150%;
-    width: 100%; height: 100%;
+    content: ''; position: absolute; top: 0; left: -150%; width: 100%; height: 100%;
     background: linear-gradient(120deg, transparent, rgba(189, 147, 249, 0.15), transparent);
     transform: skewX(-25deg); transition: 0.5s; z-index: 2; pointer-events: none;
 }
 .grid-layout .project-card:nth-child(2):hover::before { left: 150%; transition: 0.7s ease-in-out; }
 .grid-layout .project-card:nth-child(2):hover { border-color: var(--secondary); transform: translateY(-7px); }
 
-
-/* --- CARD 3: Macy's Bot (Selenium) -> "THE WEB GLITCH" --- */
 @keyframes glitch-skew {
     0% { transform: skew(0deg); } 20% { transform: skew(-2deg); } 40% { transform: skew(2deg); }
     60% { transform: skew(-1deg); } 80% { transform: skew(1deg); } 100% { transform: skew(0deg); }
@@ -364,11 +330,9 @@ a.project-card:hover { cursor: none; }
     box-shadow: 3px 3px 0px rgba(100, 255, 218, 0.2), -3px -3px 0px rgba(189, 147, 249, 0.2);
 }
 
-
-/* --- CARD 4: Coupa (OCR) -> "THE LASER READ" --- */
 .grid-layout .project-card:nth-child(4) {
     background-size: 100% 200%;
-    background-image: linear-gradient(to bottom, rgba(10, 25, 47, 0.7) 50%, rgba(100, 255, 218, 0.05) 50%);
+    background-image: linear-gradient(to bottom, rgba(22, 27, 34, 0.8) 50%, rgba(100, 255, 218, 0.05) 50%);
     transition: background-position 0.5s, transform 0.3s;
 }
 .grid-layout .project-card:nth-child(4)::before {
@@ -379,8 +343,6 @@ a.project-card:hover { cursor: none; }
 .grid-layout .project-card:nth-child(4):hover::before { top: 100%; opacity: 1; transition: top 0.8s ease-in-out; }
 .grid-layout .project-card:nth-child(4):hover { background-position: 0 -100%; transform: translateY(-7px); }
 
-
-/* --- CARD 5: WUSA (OS Scripting) -> "THE FILE LEVITATION" --- */
 .grid-layout .project-card:nth-child(5) { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .grid-layout .project-card:nth-child(5):hover {
     transform: translateY(-10px) scale(1.02);
@@ -388,8 +350,6 @@ a.project-card:hover { cursor: none; }
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
 }
 
-
-/* --- CARD 6: DAMCO STATUS TRACKER -> "THE SECURE PULSE" --- */
 @keyframes pulse-border {
     0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
     70% { box-shadow: 0 0 0 10px rgba(100, 255, 218, 0); }
@@ -398,11 +358,11 @@ a.project-card:hover { cursor: none; }
 .grid-layout .project-card:nth-child(6):hover { 
     animation: pulse-border 1.5s infinite; 
     border-color: var(--primary); 
-    background: #112240; 
+    background: #161b22; 
     transform: translateY(-7px);
 }
 .grid-layout .project-card:nth-child(6):hover .metric {
-    color: #0a192f; background: var(--primary); 
+    color: #0d1117; background: var(--primary); 
     padding: 2px 8px; border-radius: 4px; 
     font-weight: bold; transition: 0.3s;
 }
@@ -411,26 +371,26 @@ a.project-card:hover { cursor: none; }
 .awards-section { padding: 100px 0; background: rgba(255,255,255,0.0); }
 .awards-flex { display: flex; gap: 30px; margin-top: 50px; flex-wrap: wrap; justify-content: center; }
 .award-item { 
-    background: rgba(10, 25, 47, 0.7); padding: 40px; text-align: center; border-radius: 8px; 
-    border: 1px solid rgba(255,255,255,0.05); flex: 1; min-width: 250px; max-width: 350px; 
+    background: rgba(22, 27, 34, 0.8); padding: 40px; text-align: center; border-radius: 8px; 
+    border: 1px solid rgba(48, 54, 61, 0.6); flex: 1; min-width: 250px; max-width: 350px; 
     transition: all 0.4s var(--easing); position: relative; backdrop-filter: blur(5px);
 }
 .award-item:hover { transform: translateY(-10px); border-color: gold; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15); }
-.award-item i { font-size: 3rem; color: #8892b0; margin-bottom: 20px; transition: 0.4s; }
+.award-item i { font-size: 3rem; color: #8b949e; margin-bottom: 20px; transition: 0.4s; }
 .award-item:hover i { color: gold; transform: scale(1.2) rotate(15deg); filter: drop-shadow(0 0 10px gold); }
 
 /* === CONTACT FORM === */
 footer { padding: 100px 0 50px; text-align: center; }
 .contact-box { 
-    max-width: 600px; margin: 0 auto; background: rgba(10, 25, 47, 0.85); 
-    padding: 50px; border-radius: 15px; border: 1px solid rgba(100, 255, 218, 0.1);
+    max-width: 600px; margin: 0 auto; background: rgba(22, 27, 34, 0.9); 
+    padding: 50px; border-radius: 15px; border: 1px solid rgba(48, 54, 61, 0.6);
     backdrop-filter: blur(10px); box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
     transition: transform 0.4s var(--easing);
 }
 form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
 .input-group { position: relative; width: 100%; }
 .input-group input, .input-group textarea {
-    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(136, 146, 176, 0.3);
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(139, 148, 158, 0.3);
     padding: 15px 0; color: #fff; font-family: var(--font-main); font-size: 1.1rem;
     outline: none; border-radius: 0; transition: border-color 0.3s ease; z-index: 2; position: relative;
 }
@@ -454,7 +414,7 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
     padding: 18px; font-weight: bold; border-radius: 4px; cursor: pointer; overflow: hidden;
     transition: 0.3s; letter-spacing: 1px; font-family: var(--font-code); text-transform: uppercase;
 }
-.btn-submit:hover { color: #0a192f; box-shadow: 0 0 30px rgba(100, 255, 218, 0.4); transform: translateY(-3px); }
+.btn-submit:hover { color: #0d1117; box-shadow: 0 0 30px rgba(100, 255, 218, 0.4); transform: translateY(-3px); }
 .btn-submit::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary);
     transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--easing); z-index: -1;
@@ -464,16 +424,16 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
 .footer-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 .copyright { margin-top: 50px; font-size: 0.8rem; color: #555; }
 
-/* === DOWNLOAD CONFIRMATION MODAL (NEW) === */
+/* === DOWNLOAD CONFIRMATION MODAL === */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(2, 12, 27, 0.9); z-index: 10000;
+    background: rgba(13, 17, 23, 0.9); z-index: 10000;
     display: none; justify-content: center; align-items: center;
     backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease;
 }
 .modal-overlay.active { display: flex; opacity: 1; }
 .modal-content {
-    background: #112240; padding: 40px; border-radius: 10px;
+    background: #161b22; padding: 40px; border-radius: 10px;
     border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
     text-align: center; max-width: 400px; width: 90%; transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -486,14 +446,14 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
 }
 .modal-btn.cancel { background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); }
 .modal-btn.cancel:hover { border-color: #ff5f56; color: #ff5f56; }
-.modal-btn.confirm { background: var(--primary); color: #0a192f; font-weight: bold; }
+.modal-btn.confirm { background: var(--primary); color: #0d1117; font-weight: bold; }
 .modal-btn.confirm:hover { box-shadow: 0 0 15px var(--primary); transform: translateY(-2px); }
 
 /* ==================================================
-   === TABLET & MOBILE MEDIA QUERIES (UPDATED) ===
+   === TABLET & MOBILE MEDIA QUERIES ===
    ================================================== */
 
-/* TABLET (up to 1024px) */
+/* TABLET */
 @media (max-width: 1024px) {
     .container { padding: 0 30px; }
     nav { padding: 20px 30px; }
@@ -502,132 +462,91 @@ form { display: flex; flex-direction: column; gap: 30px; margin: 30px 0; }
     .timeline-block { padding-left: 60px; }
 }
 
-/* MOBILE (up to 768px - OnePlus 8T range) */
+/* MOBILE (OnePlus 8T & Others) */
 @media (max-width: 768px) {
-    /* 1. Global Touch Adjustments & Overflow Safety */
     * { cursor: auto; }
-    .cursor-dot, .cursor-outline { display: none; }
     
     .container { 
         padding: 0 20px; 
         width: 100%;
-        overflow: hidden; /* Cuts off elements causing horizontal scroll */
+        overflow: hidden;
     }
 
-    /* 2. NAVIGATION BAR */
     nav { 
         padding: 0 25px;
         height: 70px; 
-        justify-content: space-between; /* Ensures logo left, burger right */
+        justify-content: space-between;
     }
     
     .logo { font-size: 1.3rem; }
-
-    /* Hamburger Icon Alignment */
     .mobile-menu-btn { 
         display: block; 
         color: var(--primary); 
         font-size: 1.8rem; 
         cursor: pointer; 
         z-index: 2000;
-        margin-left: auto; /* Force to right */
+        margin-left: auto;
     }
     
-    /* Full Screen Menu Overlay */
     .nav-links {
-        position: fixed; 
-        top: 0; left: 0; 
-        width: 100%; height: 100vh; 
-        background: #020c1b; 
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center;     
-        gap: 30px;               
-        transform: translateX(100%); 
-        transition: transform 0.3s ease-in-out;
-        z-index: 1500;
-        padding: 0;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
+        background: #0d1117; 
+        flex-direction: column; justify-content: center; align-items: center;     
+        gap: 30px; transform: translateX(100%); transition: transform 0.3s ease-in-out;
+        z-index: 1500; padding: 0;
     }
-    
     .nav-links.active { right: 0; transform: translateX(0); }
     .nav-links a { font-size: 1.4rem; }
 
-    /* 3. HERO & TYPOGRAPHY FIXES (Center Alignment) */
     .hero { 
         padding-top: 80px; 
         height: auto; 
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Vertical Center */
-        align-items: center;     /* Horizontal Center */
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
     }
 
     .hero h1 { 
-        font-size: 2.5rem; /* Reduced to fit mobile width */
-        line-height: 1.2;
-        width: 100%;
-        word-wrap: break-word; /* Prevents "Automation" from widening screen */
+        font-size: 2.5rem; line-height: 1.2; width: 100%; word-wrap: break-word;
     }
     
     .hero-badge {
-        font-size: 0.8rem;
-        padding: 6px 15px;
-        margin-bottom: 15px;
-        white-space: nowrap; 
+        font-size: 0.8rem; padding: 6px 15px; margin-bottom: 15px; white-space: nowrap; 
     }
 
     h2 { font-size: 2rem; text-align: center; }
     .subtitle { font-size: 1rem; padding: 0 10px; }
 
-    /* 4. NEW ABOUT SECTION RESPONSIVENESS */
-    .about-wrapper {
-        flex-direction: column;
-        gap: 30px;
-    }
-    .about-text {
-        text-align: center;
-    }
-    .gif-frame {
-        max-width: 100%;
-    }
+    .about-wrapper { flex-direction: column; gap: 30px; }
+    .about-text { text-align: center; }
+    .gif-frame { max-width: 100%; }
 
-    /* 5. LAYOUT STACKING & AWARDS FIX */
     .grid-layout { grid-template-columns: 1fr; }
     
+    /* --- CRITICAL FIX FOR ONEPLUS 8T --- */
     .awards-flex { 
         flex-direction: column; 
-        align-items: center; /* FIX: Centers cards horizontally */
+        align-items: center; /* Centers items horizontally */
     }
-    
     .award-item {
-        width: 100%; /* FIX: Ensures card takes full available width */
-        margin: 0 auto; /* FIX: Backup centering */
+        width: 100%; 
+        margin: 0 auto; 
     }
-    
-    /* Resize 3D Canvas container */
-    .ai-canvas-box { 
-        width: 280px; 
-        height: 280px; 
-        margin: 0 auto;
-    }
+    /* ---------------------------------- */
 
-    /* 6. TIMELINE FIXES */
+    .ai-canvas-box { width: 280px; height: 280px; margin: 0 auto; }
+
     .timeline-container::before { left: 10px; } 
     .timeline-block { padding-left: 40px; margin-bottom: 40px; }
     .marker { left: 1px; width: 18px; height: 18px; } 
     .connector { left: 15px; top: 32px; width: 0; display: block; } 
     .timeline-block.active .connector { width: 25px; } 
 
-    /* 7. DISABLE HOVERS & ANIMATIONS */
     .project-card p { min-height: auto; }
     .project-card:hover { transform: none; } 
     .award-item:hover { transform: none; }
     
-    /* Contact Form Fixes */
     .contact-box { padding: 30px 20px; }
     .input-group input, .input-group textarea { font-size: 1rem; }
-    
-    /* Modal Mobile Fix */
     .modal-content { width: 85%; padding: 30px 20px; }
 }
