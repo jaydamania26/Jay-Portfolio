@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <!-- PARTICLE CANVAS (Clean Grid Background Only) -->
+    <!-- PARTICLE CANVAS (Background Light) -->
     <canvas id="canvas-bg"></canvas>
     
     <!-- NAVIGATION BAR -->
@@ -24,8 +24,10 @@
         <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
         
         <ul class="nav-links">
-            <li><a href="#journey" class="hover-trigger">My Journey</a></li>
+            <li><a href="#about" class="hover-trigger">About</a></li>
+            <li><a href="#toolkit" class="hover-trigger">Toolkit</a></li>
             <li><a href="#dashboards" class="hover-trigger">Analytics</a></li>
+            <li><a href="#journey" class="hover-trigger">Journey</a></li>
             <li><a href="#projects" class="hover-trigger">Portfolio</a></li>
             <li><a href="resume.pdf" target="_blank" class="hover-trigger" style="color: var(--primary);">Resume</a></li>
             <li><a href="#contact" class="btn-contact hover-trigger">Hire Me</a></li>
@@ -48,8 +50,6 @@
             <p class="subtitle" data-aos="fade-up" data-aos-delay="400">
                 I am an <strong>Automation Architect</strong> specializing in removing human error from the equation. 
                 I combine <strong>Python scripts, AI logic, and Visual Analytics</strong> to build systems that work while you sleep.
-                <br><br>
-                From MFSG to Welspun, I don't just write code—I architect the invisible workforce.
             </p>
 
             <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="600">
@@ -59,31 +59,83 @@
         </div>
     </header>
 
-    <!-- ABOUT / STORY SECTION -->
-    <section class="container" style="padding: 0 20px 80px;">
-        <div class="about-wrapper">
-            
-            <!-- Left Side: Text -->
-            <div class="about-text" data-aos="fade-right">
-                <h2 style="font-size: 2.5rem; margin-bottom: 25px;">The Human Behind The Code</h2>
-                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
-                    I started as a Trainee at Welspun, looking at spreadsheets and thinking, 
-                    <span style="color: var(--primary);">"There has to be a better way."</span> 
-                    Within 3 months, I built a <strong>Document Validation System</strong> that redefined our workflow.
-                    <br><br>
-                    Today, I leverage <strong>Artificial Intelligence</strong> to code faster and smarter. My philosophy is simple: 
-                    If a computer <em>can</em> do it, a human <em>shouldn't</em> have to. I build the logic that makes that possible.
-                </p>
+    <!-- STATS BANNER -->
+    <section class="stats-banner" data-aos="fade-up">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">0.84</span>
+                <span class="stat-label">ANNUAL FTE SAVED</span>
             </div>
+            <div class="stat-item">
+                <span class="stat-number">99%</span>
+                <span class="stat-label">PROCESS ACCURACY</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">12+</span>
+                <span class="stat-label">MAJOR DEPLOYED BOTS</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5000+</span>
+                <span class="stat-label">MINS SAVED / MONTH</span>
+            </div>
+        </div>
+    </section>
 
-            <!-- Right Side: GIF -->
-            <div class="about-visual" data-aos="fade-left" data-aos-delay="200">
-                <div class="gif-frame">
-                    <img src="my-animation.gif" alt="Coding Automation" class="cyber-gif">
-                    <div class="scanline"></div>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="container" style="padding: 100px 20px;">
+        <div class="section-title" data-aos="fade-right" style="margin-bottom: 40px;">
+            <span class="code-font" style="color: var(--primary);">01. Initialization</span>
+            <h2>The Human Behind The Code</h2>
+        </div>
+
+        <div class="about-wrapper">
+            <!-- Left Side: Python Profile Card -->
+            <div class="code-profile-card" data-aos="fade-right">
+                <div class="card-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="filename">jay_profile.exe</span>
+                </div>
+                <div class="card-content">
+<pre>
+<span class="kwd">class</span> <span class="cls">JayDamania</span>:
+  <span class="kwd">def</span> <span class="func">__init__</span>(<span class="var">self</span>):
+    <span class="var">self</span>.role = <span class="str">"Automation Lead @ Welspun"</span>
+    <span class="var">self</span>.education = <span class="str">"B.Com (Accounting Focus)"</span>
+    <span class="var">self</span>.mission = <span class="str">"Kill Repetitive Tasks"</span>
+
+  <span class="kwd">def</span> <span class="func">current_status</span>(<span class="var">self</span>):
+    <span class="kwd">return</span> <span class="str">"Building 12+ automations in 8 months"</span>
+</pre>
+                </div>
+                <div class="card-visual">
+                    <img src="my-animation.gif" alt="Pixel Art Workspace" class="pixel-img">
                 </div>
             </div>
 
+            <!-- Right Side: Experience Text -->
+            <div class="about-text-content" data-aos="fade-left">
+                <div class="role-block">
+                    <h3>Business Analyst (Automation Lead)</h3>
+                    <div class="role-meta">Welspun <span class="separator">|</span> <span class="highlight">Present</span></div>
+                    <ul class="role-list">
+                        <li>Transitioned from manual operations to Automation Lead in 3 months.</li>
+                        <li>Engineered "One-Click" solutions for Walmart, Macy's, & Damco portals.</li>
+                        <li>Achieved <strong>0.84 FTE savings</strong> annually through Python/VBA.</li>
+                    </ul>
+                </div>
+                <div class="role-block" style="margin-top: 40px;">
+                    <h3>Client Success Executive</h3>
+                    <div class="role-meta">MFSG Garments <span class="separator">|</span> 8 Months</div>
+                    <ul class="role-list">
+                        <li>Managed end-to-end order lifecycles and documentation.</li>
+                        <li>Identified the bottlenecks that inspired my automation career.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -91,7 +143,7 @@
     <section id="tech-core" class="ai-core-section">
         <div class="container">
             <div class="section-title center text-center" data-aos="fade-up">
-                <span class="code-font">01. THE LOGIC CORE</span>
+                <span class="code-font">02. THE LOGIC CORE</span>
                 <h2>Neural Intelligence</h2>
                 <p style="color: var(--text-muted); margin-top:10px; font-size: 0.9rem;">Interact: Drag to Rotate</p>
             </div>
@@ -103,8 +155,8 @@
         </div>
     </section>
 
-    <!-- METHODOLOGY SECTION -->
-    <section id="ai-method" class="ai-section">
+    <!-- TOOLKIT SECTION -->
+    <section id="toolkit" class="ai-section">
         <div class="container">
             <div class="section-title center text-center" data-aos="fade-down">
                 <span class="code-font">02. MY TOOLKIT</span>
@@ -133,45 +185,34 @@
     <!-- DASHBOARDS SECTION -->
     <section id="dashboards" class="showcase-section">
         <div class="container">
-            <div class="section-title text-center" data-aos="fade-right">
-                <span class="code-font">03. VISUALIZING DATA</span>
-                <h2>Operational Intelligence</h2>
+            <div class="section-title" data-aos="fade-right" style="margin-bottom: 50px;">
+                <span class="code-font" style="color: var(--primary);">03. VISUAL INTELLIGENCE</span>
+                <h2>Analytics Dashboards</h2>
             </div>
             
-            <!-- MFSG DASHBOARD -->
-            <div class="monitor-wrapper hover-trigger" data-aos="fade-right" data-aos-duration="1000">
-                <div class="monitor-header">
-                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-                    <span class="tab-title">MFSG_Production.pbix</span>
+            <div class="tablet-grid">
+                <!-- Tablet 1 -->
+                <div class="tablet-device" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="tablet-camera"></div>
+                    <div class="tablet-screen">
+                        <img src="mfsg.png" alt="MFSG Dashboard" class="dashboard-img">
+                        <div class="tablet-overlay">
+                            <h3>MFSG Production</h3>
+                            <p>Live Manufacturing Lifecycle Tracking</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="monitor-screen dark-screen">
-                    <img src="mfsg.png" alt="MFSG Dashboard" class="dashboard-img">
-                    <div class="screen-glare"></div>
+                <!-- Tablet 2 -->
+                <div class="tablet-device" data-aos="zoom-in" data-aos-delay="200" data-aos-duration="1000">
+                    <div class="tablet-camera"></div>
+                    <div class="tablet-screen">
+                        <img src="welspun.png" alt="Welspun Dashboard" class="dashboard-img">
+                        <div class="tablet-overlay">
+                            <h3>Welspun Analytics</h3>
+                            <p>Order Deadlines & Volume Logic</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="monitor-stand"></div>
-            </div>
-            <div class="project-desc text-center" data-aos="fade-up" data-aos-delay="200">
-                <h3>MFSG: Production Performance</h3>
-                <p>Tracking the manufacturing lifecycle. Identifying bottlenecks in real-time to streamline garment production.</p>
-            </div>
-            
-            <div class="spacer" style="height: 100px;"></div>
-            
-            <!-- WELSPUN DASHBOARD -->
-            <div class="monitor-wrapper hover-trigger" data-aos="fade-left" data-aos-duration="1000">
-                <div class="monitor-header light-header">
-                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-                    <span class="tab-title">Walmart_Tracker.xlsx</span>
-                </div>
-                <div class="monitor-screen light-screen">
-                    <img src="welspun.png" alt="Welspun Dashboard" class="dashboard-img">
-                    <div class="screen-glare"></div>
-                </div>
-                <div class="monitor-stand"></div>
-            </div>
-            <div class="project-desc text-center" data-aos="fade-up" data-aos-delay="200">
-                <h3>Welspun: Order Analytics</h3>
-                <p>Visualizing Order Counts & Deadlines. Logic structured by me to ensure 100% on-time delivery.</p>
             </div>
         </div>
     </section>
@@ -184,8 +225,7 @@
                 <h2>Evolution of a Specialist</h2>
             </div>
             <div class="timeline-container">
-                
-                <!-- 1. INTERNSHIP -->
+                <!-- 1 -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-right">
@@ -196,8 +236,7 @@
                         <p>This is where I learned the pain of manual work. I managed orders, quality control, and logistics manually.</p>
                     </div>
                 </div>
-
-                <!-- 2. TRAINEE -->
+                <!-- 2 -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-left" data-aos-delay="100">
@@ -208,8 +247,7 @@
                         <p>Joined as a Trainee. Without being asked, I built a <strong>Document Validation System</strong> to automate checking errors.</p>
                     </div>
                 </div>
-
-                <!-- 3. MANUAL HANDLING -->
+                <!-- 3 -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-right" data-aos-delay="200">
@@ -217,14 +255,10 @@
                             <h3>Peak Operations</h3>
                             <span class="company-name">Account Handler (Month 1-4)</span>
                         </div>
-                        <p>
-                            I was manually handling 3 major customers: <strong>Walmart USA, Walmart Canada, and ASDA</strong>.
-                            I was also prepared to take on a 4th account: <strong>JLP</strong>.
-                        </p>
+                        <p>I was manually handling 3 major customers: <strong>Walmart USA, Walmart Canada, and ASDA</strong>.</p>
                     </div>
                 </div>
-
-                <!-- 4. THE PIVOT -->
+                <!-- 4 -->
                 <div class="timeline-block active-on-scroll">
                     <div class="marker"></div>
                     <div class="timeline-content hover-trigger" data-aos="fade-left" data-aos-delay="300">
@@ -232,13 +266,9 @@
                             <h3>The Strategic Shift</h3>
                             <span class="company-name">Automation Specialist @ Welspun (Present)</span>
                         </div>
-                        <p>
-                            Management decided to <strong>remove all 4 customers</strong> from my workload. 
-                            My mandate changed completely: I now focus <strong>100% on Automation</strong> to build digital solutions for the team.
-                        </p>
+                        <p>Management decided to <strong>remove all 4 customers</strong> from my workload. My mandate changed completely: I now focus <strong>100% on Automation</strong>.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -328,7 +358,6 @@
                 <p data-aos="fade-up" data-aos-delay="200">
                     Ready to transform your workflow?
                 </p>
-                
                 <form action="https://formspree.io/f/movbrndl" method="POST">
                     <div class="input-group" data-aos="fade-up" data-aos-delay="300">
                         <input type="text" name="name" id="name" required autocomplete="off">
@@ -349,7 +378,6 @@
                         Send Message
                     </button>
                 </form>
-
                 <div class="footer-links" data-aos="fade-up" data-aos-delay="700">
                     <a href="https://www.linkedin.com/in/jay-damania-7a2121288" target="_blank" class="hover-trigger">LinkedIn</a>
                     <a href="mailto:jaydamania26@gmail.com" class="hover-trigger">jaydamania26@gmail.com</a>
@@ -359,7 +387,7 @@
         </div>
     </footer>
 
-    <!-- DOWNLOAD CONFIRMATION MODAL -->
+    <!-- DOWNLOAD MODAL -->
     <div id="download-modal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="modal-title"><i class="fas fa-file-download"></i> Initialize Download?</h3>
@@ -371,20 +399,11 @@
         </div>
     </div>
 
-    <!-- AOS Library -->
+    <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- Three.js Import Map -->
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-        }
-      }
-    </script>
-
-    <script type="module" src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
