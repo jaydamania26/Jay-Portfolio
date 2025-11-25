@@ -95,6 +95,15 @@ nav {
 .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
 .filename { color: #8b949e; font-size: 0.85rem; }
 .card-content { padding: 25px; color: #c9d1d9; font-size: 0.95rem; line-height: 1.6; }
+
+/* FIXED: WRAPPING FOR MOBILE CODE BLOCK */
+.card-content pre {
+    white-space: pre-wrap;       /* Allows text to wrap */
+    word-wrap: break-word;       /* Prevents overflow */
+    margin: 0;
+    font-family: inherit;
+}
+
 /* Syntax Highlighting */
 .kwd { color: #ff7b72; } .cls { color: #d2a8ff; font-weight: bold; } .func { color: #d2a8ff; } .var { color: #79c0ff; } .str { color: #a5d6ff; }
 .card-visual { width: 100%; height: 180px; overflow: hidden; position: relative; border-top: 1px solid #30363d; }
@@ -113,15 +122,15 @@ nav {
 
 .ai-canvas-box {
     width: 500px; height: 500px;
-    /* IMPORTANT: Background made transparent to remove circle shade */
-    background: transparent;
+    background: transparent; /* No Dark Circle */
     border-radius: 50%; position: relative; 
     transition: transform 0.5s var(--easing);
-    box-shadow: none; /* Shadow removed */
+    box-shadow: none; cursor: grab;
 }
+.ai-canvas-box:active { cursor: grabbing; }
 .ai-canvas-box:hover { transform: scale(1.02); }
-#ai-canvas { width: 100%; height: 100%; outline: none; cursor: grab; display: block; }
-#ai-canvas:active { cursor: grabbing; }
+#ai-canvas { width: 100%; height: 100%; outline: none; display: block; }
+
 
 /* === TOOLKIT SECTION === */
 .ai-section { padding: 100px 0; }
@@ -209,6 +218,46 @@ nav {
 .project-card p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 25px; }
 .metric { font-family: var(--font-code); font-size: 0.8rem; color: var(--primary); }
 
+/* === CONTINUOUS ANIMATIONS FOR ICONS === */
+@keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+@keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+@keyframes pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+@keyframes rock-ship {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(5deg); }
+}
+
+.project-card:hover i, .ai-card:hover i, .award-item:hover i { animation: none; }
+
+/* Icon Specific Animations */
+.grid-layout .project-card:nth-child(1) i { animation: wiggle 3s ease-in-out infinite; } 
+.grid-layout .project-card:nth-child(2) i { animation: float-y 3s ease-in-out infinite; animation-delay: 0.5s; } 
+.grid-layout .project-card:nth-child(3) i { animation: spin-slow 8s linear infinite; } 
+.grid-layout .project-card:nth-child(4) i { animation: float-y 4s ease-in-out infinite; } 
+.grid-layout .project-card:nth-child(5) i { animation: pulse-scale 3s ease-in-out infinite; } 
+.grid-layout .project-card:nth-child(6) i { animation: rock-ship 4s ease-in-out infinite; } 
+
+.ai-card i { animation: float-y 4s ease-in-out infinite; }
+.ai-card:nth-child(2) i { animation-delay: 1s; }
+.ai-card:nth-child(3) i { animation-delay: 2s; }
+
+.award-item i { animation: pulse-scale 3s ease-in-out infinite; }
+.award-item:nth-child(2) i { animation-delay: 1s; }
+.award-item:nth-child(3) i { animation-delay: 2s; }
+
 /* === AWARDS === */
 .awards-section { padding: 100px 0; }
 .awards-flex { display: flex; gap: 30px; margin-top: 50px; flex-wrap: wrap; justify-content: center; }
@@ -284,6 +333,9 @@ footer { padding: 100px 0 50px; text-align: center; }
     .about-wrapper { flex-direction: column; } 
     .code-profile-card { max-width: 100%; margin: 0 0 30px 0; } 
     .about-text-content { padding-left: 0; }
+    
+    /* Code Card Content - Mobile Fix */
+    .card-content { padding: 15px; font-size: 0.85rem; }
     
     /* 3D Core - Mobile Sizing */
     .ai-canvas-box { 
