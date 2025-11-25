@@ -3,7 +3,7 @@
    ========================================= */
 window.addEventListener('load', () => {
     
-    // Init AOS
+    // Init AOS (Animations)
     if(typeof AOS !== 'undefined') {
         AOS.init({ duration: 800, once: false, mirror: false, offset: 100, easing: 'ease-out-cubic' });
     }
@@ -117,40 +117,22 @@ window.addEventListener('load', () => {
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
 
-        // 1. Core (Solid Cyan)
+        // Core, Wireframe, Shell setup...
         const coreGeometry = new THREE.IcosahedronGeometry(0.6, 2);
-        const coreMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0x64ffda, // Default Cyan
-            transparent: true, 
-            opacity: 0.8, 
-            blending: THREE.AdditiveBlending 
-        });
+        const coreMaterial = new THREE.MeshBasicMaterial({ color: 0x64ffda, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
         const core = new THREE.Mesh(coreGeometry, coreMaterial);
         mainGroup.add(core);
 
-        // 2. Wireframe (Cyan)
         const wireframeGeometry = new THREE.IcosahedronGeometry(0.65, 1);
-        const wireframeMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0x64ffda, 
-            wireframe: true, 
-            transparent: true, 
-            opacity: 0.5 
-        });
+        const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x64ffda, wireframe: true, transparent: true, opacity: 0.5 });
         const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
         mainGroup.add(wireframe);
 
-        // 3. Shell (Purple)
         const shellGeometry = new THREE.IcosahedronGeometry(1.3, 1);
-        const shellMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0xbd93f9, 
-            wireframe: true, 
-            transparent: true, 
-            opacity: 0.2 
-        });
+        const shellMaterial = new THREE.MeshBasicMaterial({ color: 0xbd93f9, wireframe: true, transparent: true, opacity: 0.2 });
         const shell = new THREE.Mesh(shellGeometry, shellMaterial);
         mainGroup.add(shell);
 
-        // 4. Particles
         const particleCount = 1000;
         const pGeometry = new THREE.BufferGeometry();
         const pPositions = [];
@@ -164,17 +146,10 @@ window.addEventListener('load', () => {
             pPositions.push(x, y, z);
         }
         pGeometry.setAttribute('position', new THREE.Float32BufferAttribute(pPositions, 3));
-        const pMaterial = new THREE.PointsMaterial({ 
-            color: 0xbd93f9, 
-            size: 0.02, 
-            transparent: true, 
-            opacity: 0.8, 
-            blending: THREE.AdditiveBlending 
-        });
+        const pMaterial = new THREE.PointsMaterial({ color: 0xbd93f9, size: 0.02, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
         const particles = new THREE.Points(pGeometry, pMaterial);
         mainGroup.add(particles);
 
-        // 5. Satellite
         const satGeo = new THREE.SphereGeometry(0.08, 16, 16);
         const satMat = new THREE.MeshBasicMaterial({ color: 0x64ffda });
         const satellite = new THREE.Mesh(satGeo, satMat);
@@ -191,26 +166,17 @@ window.addEventListener('load', () => {
         scene.add(satelliteGroup);
 
         const clock = new THREE.Clock();
-
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
             const time = clock.getElapsedTime();
-            
-            // Default "Breathing" Animation
             const pulse = 1 + Math.sin(time * 2) * 0.05;
             core.scale.set(pulse, pulse, pulse);
-            
-            wireframe.rotation.y = time * 0.1; 
-            wireframe.rotation.z = time * 0.05;
-            
+            wireframe.rotation.y = time * 0.1; wireframe.rotation.z = time * 0.05;
             shell.rotation.y = -time * 0.15;
-            
             satellite.position.x = Math.cos(time * 1.5) * 1.6;
             satellite.position.y = Math.sin(time * 1.5) * 1.6;
-            
             mainGroup.position.y = Math.sin(time) * 0.1;
-            
             renderer.render(scene, camera);
         }
         animate();
@@ -224,12 +190,22 @@ window.addEventListener('load', () => {
     }
 
     /* =========================================
-       4. MOBILE MENU & DOWNLOAD MODAL (UPDATED)
+       4. MOBILE MENU FIX & NAVIGATION LOGIC
        ========================================= */
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     
-    // 1. Open/Close Menu on Button Click
+    // Function to close menu
+    function closeMenu() {
+        if(navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            const icon = mobileBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    }
+
+    // 1. Toggle Menu Open/Close on Button Click
     if(mobileBtn) {
         mobileBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
@@ -244,16 +220,32 @@ window.addEventListener('load', () => {
         });
     }
 
-    // 2. CLOSE MENU WHEN ANY LINK IS CLICKED (This fixes your issue)
+    // 2. NAVIGATION LINKS: CLOSE & SCROLL
     const menuItems = document.querySelectorAll('.nav-links a');
     menuItems.forEach(item => {
-        item.addEventListener('click', () => {
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                const icon = mobileBtn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+        item.addEventListener('click', (e) => {
+            
+            // Step 1: Always close the mobile menu immediately
+            closeMenu();
+
+            // Step 2: Handle Scrolling for #links
+            const href = item.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault(); // Stop default instant jump
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+
+                if (targetSection) {
+                    // Calculate position minus header height (approx 80px)
+                    const offsetTop = targetSection.offsetTop - 80;
+                    
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
             }
+            // If it's resume.pdf or mailto, let default behavior happen (but menu is already closed)
         });
     });
 
@@ -276,7 +268,7 @@ window.addEventListener('load', () => {
         modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
     }
     
-    // Scroll Animation
+    // Scroll Animation Observer
     const timelineObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) { entry.target.classList.add('active'); } 
