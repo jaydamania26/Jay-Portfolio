@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Jay Damania - Automation Architect Portfolio">
     <title>Jay Damania | Automation Architect</title>
     
-    <!-- Animations Library (AOS) -->
+    <!-- CSS Dependencies -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- CUSTOM CURSOR ELEMENTS -->
+    <!-- UI OVERLAYS -->
+    <div class="scroll-progress"></div>
+    <div class="scanlines"></div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <!-- PARTICLE CANVAS (Background Light) -->
+    <!-- BACKGROUND CANVAS -->
     <canvas id="canvas-bg"></canvas>
     
     <!-- NAVIGATION BAR -->
@@ -33,62 +40,77 @@
             <li><a href="#dashboards" class="hover-target">Analytics</a></li>
             <li><a href="#journey" class="hover-target">Journey</a></li>
             <li><a href="#projects" class="hover-target">Portfolio</a></li>
-            <li><a href="resume.pdf" target="_blank" class="hover-target" style="color: var(--primary);">Resume</a></li>
+            <li><a href="resume.pdf" target="_blank" class="hover-target highlight-link">Resume</a></li>
             <li><a href="#contact" class="btn-contact hover-target">Hire Me</a></li>
         </ul>
     </nav>
 
     <!-- HERO SECTION -->
-    <header class="hero">
+    <header class="hero-new">
         <div class="container">
-            <div class="hero-badge hover-target" data-aos="fade-down" data-aos-delay="200">
-                <i class="fas fa-robot fa-bounce" style="--fa-animation-duration: 3s;"></i> System Status: Online & Automating
-            </div>
-            
-            <h1 data-aos="zoom-in" data-aos-duration="1200">
-                <span style="font-size: 0.4em; display: block; margin-bottom: 10px; font-weight: 300; color: var(--primary); font-family: var(--font-code);">Hi There, I'm</span>
-                <span class="gradient-text">Jay Damania.</span><br>
-                <span style="font-size: 0.6em; color: #8892b0;">I Engineer Digital Intelligence.</span>
-            </h1>
-            
-            <p class="subtitle" data-aos="fade-up" data-aos-delay="400">
-                I am an <strong>Automation Architect</strong> specializing in removing human error from the equation. 
-                I combine <strong>Python scripts, AI logic, and Visual Analytics</strong> to build systems that work while you sleep.
-            </p>
+            <div class="hero-content-center">
+                <div class="system-badge hover-target" data-aos="fade-down" data-aos-delay="100">
+                    <span class="status-dot"></span> System Status: Online
+                </div>
+                
+                <h1 data-aos="zoom-in" data-aos-delay="200">
+                    <span class="mono-greeting">Hello_World, I am</span><br>
+                    <span class="big-name hover-target">Jay Damania</span>
+                </h1>
+                
+                <h2 class="big-subtitle" data-aos="fade-up" data-aos-delay="300">
+                    I Engineer <span class="gradient-text type-container"><span id="typewriter-text"></span><span class="cursor-type">|</span></span>
+                </h2>
 
-            <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="600">
-                <span class="scroll-text">INITIALIZE SEQUENCE</span>
-                <div class="mouse hover-target"><div class="wheel"></div></div>
+                <p class="hero-desc" data-aos="fade-up" data-aos-delay="400">
+                    Automation Architect specializing in Python, AI Logic, and System Integration. 
+                    I build digital workforces that run while you sleep.
+                </p>
+
+                <div class="hero-cta" data-aos="fade-up" data-aos-delay="500">
+                    <a href="#projects" class="init-btn hover-target">
+                        <span class="btn-txt">INITIALIZE PORTFOLIO</span>
+                    </a>
+                </div>
+
+                <div class="scroll-line-container" data-aos="fade-in" data-aos-delay="800">
+                    <span class="scroll-text">SCROLL_DOWN</span>
+                    <div class="scroll-line"></div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- STATS BANNER -->
-    <section class="stats-banner" data-aos="fade-up">
-        <div class="stats-container">
-            <div class="stat-item hover-target">
-                <span class="stat-number">0.84</span>
-                <span class="stat-label">ANNUAL FTE SAVED</span>
-            </div>
-            <div class="stat-item hover-target">
-                <span class="stat-number">99%</span>
-                <span class="stat-label">PROCESS ACCURACY</span>
-            </div>
-            <div class="stat-item hover-target">
-                <span class="stat-number">12+</span>
-                <span class="stat-label">MAJOR DEPLOYED BOTS</span>
-            </div>
-            <div class="stat-item hover-target">
-                <span class="stat-number">5000+</span>
-                <span class="stat-label">MINS SAVED / MONTH</span>
+    <!-- STATS SECTION -->
+    <section class="stats-section" data-aos="fade-up">
+        <div class="container">
+            <div class="stats-grid-new">
+                <div class="stat-card-new hover-target tilt-card">
+                    <div class="card-glass"></div>
+                    <span class="stat-val">0.84</span>
+                    <span class="stat-key">FTE Saved / Year</span>
+                    <i class="fas fa-clock stat-icon anim-float"></i>
+                </div>
+                <div class="stat-card-new hover-target tilt-card">
+                    <div class="card-glass"></div>
+                    <span class="stat-val">99<small>%</small></span>
+                    <span class="stat-key">Process Accuracy</span>
+                    <i class="fas fa-check-circle stat-icon anim-pulse"></i>
+                </div>
+                <div class="stat-card-new hover-target tilt-card">
+                    <div class="card-glass"></div>
+                    <span class="stat-val">12<small>+</small></span>
+                    <span class="stat-key">Bots Deployed</span>
+                    <i class="fas fa-robot stat-icon anim-wiggle"></i>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ABOUT SECTION -->
-    <section id="about" class="container" style="padding: 100px 20px;">
-        <div class="section-title" data-aos="fade-right" style="margin-bottom: 40px;">
-            <span class="code-font" style="color: var(--primary);">01. Initialization</span>
+    <section id="about" class="container about-container">
+        <div class="section-title text-center" data-aos="fade-right">
+            <span class="code-font primary-color">01. Initialization</span>
             <h2>The Human Behind The Code</h2>
         </div>
 
@@ -116,40 +138,41 @@
 </pre>
                 </div>
                 <div class="card-visual">
+                    <!-- Replace 'my-animation.gif' with your actual image -->
                     <img src="my-animation.gif" alt="Pixel Art Workspace" class="pixel-img">
                 </div>
             </div>
 
-            <!-- Right Side: Experience Text -->
+            <!-- Experience Text -->
             <div class="about-text-content" data-aos="fade-left">
                 <div class="role-block hover-target">
-                    <h3>Business Analyst (Automation Lead)</h3>
+                    <h3><i class="fas fa-terminal anim-pulse primary-icon"></i>Automation Lead</h3>
                     <div class="role-meta">Welspun <span class="separator">|</span> <span class="highlight">Present</span></div>
                     <ul class="role-list">
-                        <li>I joined Welspun as a Trainee. Within 3 months, I quietly built a, Document Validation System, that no one asked for, but everyone needed.</li>
-                        <li>Engineered "One-Click" solutions for Walmart, Macy's, & Damco portals.</li>
-                        <li>Achieved <strong>0.84 FTE savings</strong> annually through Python/VBA.</li>
+                        <li>Joined as a Trainee; built Document Validation System within 3 months.</li>
+                        <li>Engineered "One-Click" solutions for Walmart & Macy's portals.</li>
+                        <li>Achieved <strong>0.84 FTE savings</strong> annually through logic optimization.</li>
                     </ul>
                 </div>
-                <div class="role-block hover-target" style="margin-top: 40px;">
-                    <h3>Client Success Executive</h3>
+                <div class="role-block hover-target mt-40">
+                    <h3><i class="fas fa-briefcase anim-float secondary-icon"></i>Client Success</h3>
                     <div class="role-meta">MFSG Garments <span class="separator">|</span> 8 Months</div>
                     <ul class="role-list">
-                        <li>Managed end-to-end order lifecycles and documentation.</li>
-                        <li>Identified the bottlenecks that inspired my automation career.</li>
+                        <li>Managed end-to-end order lifecycles and global documentation.</li>
+                        <li>Identified key bottlenecks that inspired my transition to automation.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3D CORE SECTION -->
+    <!-- NEURAL INTELLIGENCE SECTION (3D CORE) -->
     <section id="tech-core" class="ai-core-section">
         <div class="container">
             <div class="section-title center text-center" data-aos="fade-up">
                 <span class="code-font">02. THE LOGIC CORE</span>
                 <h2>Neural Intelligence</h2>
-                <p style="color: var(--text-muted); margin-top:10px; font-size: 0.9rem;">Interact: Drag to Rotate & Charge</p>
+                <p class="interact-hint">Interact: Drag to Rotate</p>
             </div>
             <div class="ai-core-wrapper" data-aos="zoom-in" data-aos-duration="1500">
                 <div class="ai-canvas-box hover-target">
@@ -159,28 +182,49 @@
         </div>
     </section>
 
-    <!-- TOOLKIT SECTION -->
+    <!-- TOOLKIT SECTION (UPDATED GRID) -->
     <section id="toolkit" class="ai-section">
         <div class="container">
             <div class="section-title center text-center" data-aos="fade-down">
                 <span class="code-font">02. MY TOOLKIT</span>
                 <h2>How I Deliver Results</h2>
             </div>
-            <div class="ai-grid">
-                <div class="ai-card hover-target" data-aos="fade-up" data-aos-delay="0">
-                    <i class="fas fa-project-diagram"></i>
-                    <h3>Process Mapping</h3>
-                    <p>I learned the manual struggle first. I don't automate blindly; I map the workflow to ensure the logic handles every edge case.</p>
-                </div>
-                <div class="ai-card hover-target" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fab fa-python"></i>
-                    <h3>Python & Selenium</h3>
+            
+            <div class="toolkit-grid">
+                <!-- Card 1: Python -->
+                <div class="toolkit-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon icon-gold">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3>Python (Selenium)</h3>
                     <p>My primary weapons. I build robust bots that navigate complex portals (Macy's, Damco, Coupa) to execute tasks humans hate doing.</p>
                 </div>
-                <div class="ai-card hover-target" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fas fa-rocket"></i>
-                    <h3>AI Acceleration</h3>
-                    <p>I use AI as a super-powered assistant to write syntax and debug 10x faster. I provide the architecture; AI provides the typing.</p>
+
+                <!-- Card 2: SQL -->
+                <div class="toolkit-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon icon-blue">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>SQL & Data Logic</h3>
+                    <p>Structuring chaotic data. I design efficient queries and schemas to ensure data integrity across all automated workflows.</p>
+                </div>
+
+                <!-- Card 3: RPA -->
+                <div class="toolkit-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon icon-green">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>RPA Architecture</h3>
+                    <p>I don't automate blindly. I map workflows to ensure logic handles every edge case, creating resilient bot ecosystems.</p>
+                </div>
+
+                <!-- Card 4: Analytics -->
+                <div class="toolkit-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-icon icon-purple">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Visual Analytics</h3>
+                    <p>Turning data into decisions. I create live dashboards that visualize bot performance and business ROI instantly.</p>
                 </div>
             </div>
         </div>
@@ -189,31 +233,31 @@
     <!-- DASHBOARDS SECTION -->
     <section id="dashboards" class="showcase-section">
         <div class="container">
-            <div class="section-title" data-aos="fade-right" style="margin-bottom: 50px;">
-                <span class="code-font" style="color: var(--primary);">03. VISUAL INTELLIGENCE</span>
+            <div class="section-title text-center mb-50" data-aos="fade-right">
+                <span class="code-font primary-color">03. VISUAL INTELLIGENCE</span>
                 <h2>Analytics Dashboards</h2>
             </div>
             
             <div class="tablet-grid">
                 <!-- Tablet 1 -->
-                <div class="tablet-device hover-target" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="tablet-device hover-target tilt-card" data-aos="zoom-in" data-aos-duration="1000">
                     <div class="tablet-camera"></div>
                     <div class="tablet-screen">
                         <img src="mfsg.png" alt="MFSG Dashboard" class="dashboard-img">
                         <div class="tablet-overlay">
                             <h3>MFSG Production</h3>
-                            <p>Live Manufacturing Lifecycle Tracking</p>
+                            <p>Live Tracking</p>
                         </div>
                     </div>
                 </div>
                 <!-- Tablet 2 -->
-                <div class="tablet-device hover-target" data-aos="zoom-in" data-aos-delay="200" data-aos-duration="1000">
+                <div class="tablet-device hover-target tilt-card" data-aos="zoom-in" data-aos-delay="200" data-aos-duration="1000">
                     <div class="tablet-camera"></div>
                     <div class="tablet-screen">
                         <img src="welspun.png" alt="Welspun Dashboard" class="dashboard-img">
                         <div class="tablet-overlay">
                             <h3>Welspun Analytics</h3>
-                            <p>Order Deadlines & Volume Logic</p>
+                            <p>Volume Logic</p>
                         </div>
                     </div>
                 </div>
@@ -221,7 +265,7 @@
         </div>
     </section>
 
-    <!-- TIMELINE SECTION -->
+    <!-- TIMELINE SECTION (UPDATED 4 POINTS) -->
     <section id="journey" class="timeline-section">
         <div class="container">
             <div class="section-title text-center" data-aos="fade-up">
@@ -229,10 +273,10 @@
                 <h2>Evolution of a Specialist</h2>
             </div>
             <div class="timeline-container">
-                <!-- 1 -->
+                <!-- 1. The Foundation -->
                 <div class="timeline-block active-on-scroll">
-                    <div class="marker"></div>
-                    <div class="timeline-content hover-target" data-aos="fade-right">
+                    <div class="marker"><i class="fas fa-graduation-cap timeline-icon"></i></div>
+                    <div class="timeline-content hover-target tilt-card" data-aos="fade-right">
                         <div class="content-header">
                             <h3>The Foundation</h3>
                             <span class="company-name">Internship @ MFSG Garments</span>
@@ -240,37 +284,40 @@
                         <p>This is where I learned the pain of manual work. I managed orders, quality control, and logistics manually.</p>
                     </div>
                 </div>
-                <!-- 2 -->
+
+                <!-- 2. The Initiative -->
                 <div class="timeline-block active-on-scroll">
-                    <div class="marker"></div>
-                    <div class="timeline-content hover-target" data-aos="fade-left" data-aos-delay="100">
+                    <div class="marker"><i class="fas fa-bolt timeline-icon pl-2"></i></div>
+                    <div class="timeline-content hover-target tilt-card" data-aos="fade-left" data-aos-delay="100">
                          <div class="content-header">
                             <h3>The Initiative</h3>
                             <span class="company-name">Documentation Trainee @ Welspun (Month 1-3)</span>
                         </div>
-                        <p>Joined as a Trainee. Without being asked, I built a <strong>Document Validation System</strong> to automate checking errors.</p>
+                        <p>Joined as a Trainee. Without being asked, I built a Document Validation System to automate checking errors.</p>
                     </div>
                 </div>
-                <!-- 3 -->
+
+                <!-- 3. Peak Operations -->
                 <div class="timeline-block active-on-scroll">
-                    <div class="marker"></div>
-                    <div class="timeline-content hover-target" data-aos="fade-right" data-aos-delay="200">
+                    <div class="marker"><i class="fas fa-chart-line timeline-icon pl-2"></i></div>
+                    <div class="timeline-content hover-target tilt-card" data-aos="fade-right" data-aos-delay="200">
                          <div class="content-header">
                             <h3>Peak Operations</h3>
                             <span class="company-name">Account Handler (Month 1-4)</span>
                         </div>
-                        <p>I was manually handling 3 major customers: <strong>Walmart USA, Walmart Canada, and ASDA</strong>.</p>
+                        <p>I was manually handling 3 major customers: Walmart USA, Walmart Canada, and ASDA.</p>
                     </div>
                 </div>
-                <!-- 4 -->
+
+                <!-- 4. The Strategic Shift -->
                 <div class="timeline-block active-on-scroll">
-                    <div class="marker"></div>
-                    <div class="timeline-content hover-target" data-aos="fade-left" data-aos-delay="300">
+                    <div class="marker"><i class="fas fa-robot timeline-icon"></i></div>
+                    <div class="timeline-content hover-target tilt-card" data-aos="fade-left" data-aos-delay="300">
                          <div class="content-header">
                             <h3>The Strategic Shift</h3>
                             <span class="company-name">Automation Specialist @ Welspun (Present)</span>
                         </div>
-                        <p>Management decided to <strong>remove all 4 customers</strong> from my workload. My mandate changed completely: I now focus <strong>100% on Automation</strong>.</p>
+                        <p>Management decided to remove all 4 customers from my workload. My mandate changed completely: I now focus <strong>100% on Automation</strong>.</p>
                     </div>
                 </div>
             </div>
@@ -283,42 +330,77 @@
             <div class="section-title center text-center" data-aos="zoom-in">
                 <span class="code-font">05. DEPLOYED SOLUTIONS</span>
                 <h2>Automation Portfolio</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">Solutions built for Walmart, Macy's, JLP & Many More</p>
+                <p class="subtitle-muted">Walmart, Macy's, JLP Solutions</p>
             </div>
 
             <div class="grid-layout">
-                <a href="walmart.pptx" class="project-card hover-target" data-aos="fade-up">
-                    <div class="card-top"><i class="fab fa-python"></i><span class="card-tag">Python Script</span></div>
+                <!-- Project 1: Walmart -->
+                <a href="walmart.pptx" class="project-card hover-target tilt-card" data-aos="fade-up">
+                    <div class="card-glow"></div>
+                    <div class="card-top">
+                        <i class="fab fa-python anim-wiggle"></i>
+                        <span class="card-tag">Python Script</span>
+                    </div>
                     <h3>Walmart Doc Validator</h3>
                     <p>Validates Commercial Invoices vs Packing Lists instantly. Eliminates manual checking errors.</p>
                     <div class="metric">45 Mins &rarr; 0.20 Mins</div>
                 </a>
-                <a href="sheet_master.pptx" class="project-card hover-target" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card-top"><i class="fas fa-file-excel"></i><span class="card-tag">Advanced VBA</span></div>
+                
+                <!-- Project 2: Sheet Master -->
+                <a href="sheet_master.pptx" class="project-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="card-top">
+                        <i class="fas fa-file-excel anim-float"></i>
+                        <span class="card-tag">Advanced VBA</span>
+                    </div>
                     <h3>Sheet Master Updater</h3>
                     <p>Consolidates daily reports automatically. Turned a 1-hour morning routine into a single button click.</p>
                     <div class="metric">1 Hour &rarr; 2 Mins</div>
                 </a>
-                <a href="macys.pptx" class="project-card hover-target" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card-top"><i class="fab fa-chrome"></i><span class="card-tag">Selenium Web Bot</span></div>
+
+                <!-- Project 3: Macy's -->
+                <a href="macys.pptx" class="project-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-glow"></div>
+                    <div class="card-top">
+                        <i class="fab fa-chrome anim-spin"></i>
+                        <span class="card-tag">Selenium Web Bot</span>
+                    </div>
                     <h3>Macy’s Portal Bot</h3>
                     <p>Handles the entire Packing List creation process on the Macy's vendor portal.</p>
                     <div class="metric">65 Mins &rarr; 0.20 Mins</div>
                 </a>
-                <a href="coupa.pptx" class="project-card hover-target" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card-top"><i class="fas fa-receipt"></i><span class="card-tag">PDF/Excel &rarr; Web</span></div>
+
+                <!-- Project 4: Coupa -->
+                <a href="coupa.pptx" class="project-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-glow"></div>
+                    <div class="card-top">
+                        <i class="fas fa-receipt anim-pulse"></i>
+                        <span class="card-tag">PDF/Excel &rarr; Web</span>
+                    </div>
                     <h3>Coupa Invoice Automation</h3>
                     <p>Reads unstructured PDF/Excel data and uploads it to the JLP Finance Portal (Coupa).</p>
                     <div class="metric">Backlog Cleared</div>
                 </a>
-                <a href="wusa.pptx" class="project-card hover-target" data-aos="fade-up" data-aos-delay="400">
-                    <div class="card-top"><i class="fas fa-folder-tree"></i><span class="card-tag">OS Automation</span></div>
+
+                <!-- Project 5: WUSA File Manager -->
+                <a href="wusa.pptx" class="project-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-glow"></div>
+                    <div class="card-top">
+                        <i class="fas fa-folder-tree anim-float"></i>
+                        <span class="card-tag">OS Automation</span>
+                    </div>
                     <h3>WUSA File Manager</h3>
                     <p>Automatically merges, sorts, and places files in the correct server folders. Zero manual effort.</p>
                     <div class="metric">Instant Organization</div>
                 </a>
-                <a href="damco.pptx" class="project-card hover-target" data-aos="fade-up" data-aos-delay="500">
-                    <div class="card-top"><i class="fas fa-ship"></i><span class="card-tag">Live Status Bot</span></div>
+
+                <!-- Project 6: Damco -->
+                <a href="damco.pptx" class="project-card hover-target tilt-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="card-glow"></div>
+                    <div class="card-top">
+                        <i class="fas fa-ship anim-wiggle"></i>
+                        <span class="card-tag">Live Status Bot</span>
+                    </div>
                     <h3>Damco FCR Creation</h3>
                     <p>Auto-generates Cargo Receipts on the Damco portal and shoots emails to the correct stakeholders.</p>
                     <div class="metric">55 Mins &rarr; 30 Secs</div>
@@ -327,41 +409,11 @@
         </div>
     </section>
 
-    <!-- AWARDS SECTION -->
-    <section id="awards" class="awards-section">
-        <div class="container">
-            <div class="section-title text-center" data-aos="fade-right">
-                <span class="code-font">06. RECOGNITION</span>
-                <h2>Hall of Fame</h2>
-            </div>
-            <div class="awards-flex">
-                <div class="award-item hover-target" data-aos="flip-left" data-aos-duration="1000">
-                    <i class="fas fa-trophy"></i>
-                    <h3>"HATTRICK" @ Tech Friday</h3>
-                    <p>Presented 4 automations back-to-back to the CEO & Leadership.</p>
-                </div>
-                <div class="award-item hover-target" data-aos="flip-left" data-aos-delay="200" data-aos-duration="1000">
-                    <i class="fas fa-star"></i>
-                    <h3>2x Young Talent Award</h3>
-                    <p>Recognized at the Townhall twice in less than 1 year.</p>
-                </div>
-                <div class="award-item hover-target" data-aos="flip-left" data-aos-delay="400" data-aos-duration="1000">
-                    <i class="fas fa-certificate"></i>
-                    <h3>Six Sigma Certified</h3>
-                    <p>Yellow & White Belt Process Excellence.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- CONTACT SECTION -->
     <footer id="contact">
         <div class="container">
-            <div class="contact-box hover-target" data-aos="zoom-in">
+            <div class="contact-box hover-target tilt-card" data-aos="zoom-in">
                 <h2 data-aos="fade-down" data-aos-delay="100">Get In Touch</h2>
-                <p data-aos="fade-up" data-aos-delay="200">
-                    Ready to transform your workflow?
-                </p>
                 <form action="https://formspree.io/f/movbrndl" method="POST">
                     <div class="input-group" data-aos="fade-up" data-aos-delay="300">
                         <input type="text" name="name" id="name" required autocomplete="off" class="hover-target">
@@ -375,7 +427,7 @@
                     </div>
                     <div class="input-group" data-aos="fade-up" data-aos-delay="500">
                         <textarea name="message" id="message" rows="4" required autocomplete="off" class="hover-target"></textarea>
-                        <label for="message">What process needs fixing?</label>
+                        <label for="message">Message</label>
                         <span class="glow-bar"></span>
                     </div>
                     <button type="submit" class="btn-submit hover-target" data-aos="zoom-in" data-aos-delay="600">
@@ -384,7 +436,7 @@
                 </form>
                 <div class="footer-links" data-aos="fade-up" data-aos-delay="700">
                     <a href="https://www.linkedin.com/in/jay-damania-7a2121288" target="_blank" class="hover-target">LinkedIn</a>
-                    <a href="mailto:jaydamania26@gmail.com" class="hover-target">jaydamania26@gmail.com</a>
+                    <a href="mailto:jaydamania26@gmail.com" class="hover-target">Email</a>
                 </div>
             </div>
             <p class="copyright">Designed by Jay Damania © 2024</p>
@@ -393,9 +445,13 @@
 
     <!-- DOWNLOAD MODAL -->
     <div id="download-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="modal-title"><i class="fas fa-file-download"></i> Initialize Download?</h3>
-            <p id="modal-message">Do you really want to download this file? <br><span style="font-size:0.8em; color: #8892b0;">Action cannot be undone.</span></p>
+        <div class="modal-content tilt-card">
+            <h3 id="modal-title"><i class="fas fa-file-download anim-wiggle"></i> Initialize Download?</h3>
+            <p id="modal-message">
+                Do you really want to download this file? 
+                <br>
+                <span class="modal-subtitle">Action cannot be undone.</span>
+            </p>
             <div class="modal-actions">
                 <button id="btn-cancel" class="modal-btn cancel hover-target">Abort</button>
                 <button id="btn-confirm" class="modal-btn confirm hover-target">Confirm & Download</button>
@@ -405,8 +461,10 @@
 
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Three.js Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Main Script -->
     <script src="script.js"></script>
 
 </body>
