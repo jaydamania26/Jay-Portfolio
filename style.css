@@ -16,7 +16,14 @@
 html, body { 
     width: 100%; 
     overflow-x: hidden; 
-    position: relative; 
+    position: relative;
+    /* HIDE DEFAULT CURSOR GLOBALLY */
+    cursor: none; 
+}
+
+/* Ensure links and buttons don't show the hand cursor */
+a, button, input, textarea, .hover-target {
+    cursor: none !important;
 }
 
 /* Hide Scrollbars (Clean Look) */
@@ -24,6 +31,47 @@ body::-webkit-scrollbar { display: none; }
 body { -ms-overflow-style: none; scrollbar-width: none; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === CUSTOM CURSOR STYLES === */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(100, 255, 218, 0.5);
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* ANIMATION STATE: When hovering over cards/icons */
+body.hovering .cursor-outline {
+    width: 70px;
+    height: 70px;
+    background-color: rgba(100, 255, 218, 0.1); /* Slight fill */
+    border-color: var(--primary);
+    border-width: 2px;
+}
+
+body.hovering .cursor-dot {
+    background-color: #fff;
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
 
 /* === BODY & BACKGROUND === */
 body {
@@ -189,7 +237,8 @@ nav {
     flex-wrap: wrap; gap: 30px;
 }
 
-.stat-item { text-align: center; }
+.stat-item { text-align: center; transition: 0.3s; }
+.stat-item:hover { transform: translateY(-5px); }
 
 .stat-number { 
     display: block; font-size: 3.5rem; font-weight: 700; 
@@ -270,9 +319,9 @@ nav {
     border-radius: 50%; position: relative; 
     transition: transform 0.5s var(--easing);
     box-shadow: none; 
-    cursor: grab;
+    cursor: none; /* Changed for custom cursor */
 }
-.ai-canvas-box:active { cursor: grabbing; }
+.ai-canvas-box:active { cursor: none; }
 .ai-canvas-box:hover { transform: scale(1.02); }
 #ai-canvas { width: 100%; height: 100%; outline: none; display: block; }
 
@@ -497,6 +546,10 @@ footer { padding: 100px 0 50px; text-align: center; }
 
 /* === MOBILE RESPONSIVE (OnePlus 8T & Others) === */
 @media (max-width: 768px) {
+    /* Hide Custom Cursor on Touch Devices */
+    .cursor-dot, .cursor-outline { display: none; }
+    html, body, a, button, .hover-target { cursor: auto !important; }
+
     .container { padding: 0 20px; }
     
     /* Nav */

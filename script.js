@@ -276,4 +276,42 @@ window.addEventListener('load', () => {
         });
     }, { threshold: 0.5, rootMargin: "0px 0px -20% 0px" });
     document.querySelectorAll('.active-on-scroll').forEach(item => { timelineObserver.observe(item); });
+
+
+    /* =========================================
+       5. CUSTOM CURSOR ANIMATION LOGIC
+       ========================================= */
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+
+    if (cursorDot && cursorOutline && window.innerWidth > 768) {
+        
+        window.addEventListener('mousemove', function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay (animation in CSS)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Add Hover Effect to all interactive elements
+        // This targets: links, buttons, project cards, ai cards, award items, and manually marked targets
+        const hoverTargets = document.querySelectorAll('a, button, .project-card, .ai-card, .award-item, .hover-target, i, .tablet-device');
+
+        hoverTargets.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+    }
 });
