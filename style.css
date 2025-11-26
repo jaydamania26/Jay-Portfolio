@@ -40,7 +40,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     left: 0;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    z-index: 9999;
+    z-index: 20000; /* Updated to be on top of the modal */
     pointer-events: none;
 }
 
