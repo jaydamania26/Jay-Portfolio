@@ -23,6 +23,9 @@ window.addEventListener('load', () => {
     initNavigation();
     initDownloadModal();
     initCustomCursor();
+
+    // Notify Discord (Silent Ping)
+    notifyVisit();
 });
 
 
@@ -394,4 +397,60 @@ function initCustomCursor() {
             el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
         });
     }
+}
+
+/* =========================================
+   14. VISITOR NOTIFICATION SYSTEM (UPDATED)
+   ========================================= */
+function notifyVisit() {
+    // Check if we already notified this session to prevent spam refreshing
+    if(sessionStorage.getItem('visited')) return;
+    
+    // 1. Get Clean Device Name
+    const ua = navigator.userAgent;
+    let deviceText = "Unknown Device";
+
+    if (ua.indexOf("Windows NT 10.0") !== -1) deviceText = "Windows 10/11 PC";
+    else if (ua.indexOf("Windows NT 6.1") !== -1) deviceText = "Windows 7 PC";
+    else if (ua.indexOf("Mac OS X") !== -1) deviceText = "Mac / MacBook";
+    else if (ua.indexOf("Android") !== -1) deviceText = "Android Mobile";
+    else if (ua.indexOf("iPhone") !== -1) deviceText = "iPhone";
+    else if (ua.indexOf("Linux") !== -1) deviceText = "Linux / Desktop";
+    
+    // 2. Get Visitor Data (IP, City, Country)
+    fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+            
+            // 3. Format the Message for Discord
+            // YOUR WEBHOOK IS HERE:
+            const webhookURL = 'https://discord.com/api/webhooks/1444721910284943495/-E6nNrnKRJBPBPQYjzDcqNTsl-JupNP0XMEEwr3a8WuoIrZYvgBQDXdEZmhItLk2G_42';
+            
+            const message = {
+                embeds: [{
+                    title: "🚀 New Portfolio Visit!",
+                    color: 6619098, // Neon Green
+                    fields: [
+                        { name: "🏢 Network / Company", value: data.org || "Unknown ISP", inline: false },
+                        { name: "📍 Location", value: `${data.city}, ${data.region}, ${data.country_name}`, inline: true },
+                        { name: "Ip Address", value: data.ip, inline: true },
+                        // Use our Clean Device Name here
+                        { name: "📱 Device", value: deviceText, inline: true }
+                    ],
+                    footer: { text: "Jay Damania Portfolio System" },
+                    timestamp: new Date()
+                }]
+            };
+
+            // 4. Send to Discord
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(message)
+            });
+
+            // Mark session as visited
+            sessionStorage.setItem('visited', 'true');
+        })
+        .catch(error => console.error('Tracking Error:', error));
 }
