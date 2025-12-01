@@ -24,11 +24,11 @@ window.addEventListener('load', () => {
     initCustomCursor();
 
     // 🌟 NEW FEATURES 🌟
-    initDownloadModal(); // Updated with Recruiter Detector
-    initDirectContactForm(); // Replaces Formspree
+    initDownloadModal(); // Recruiter Detector
+    initDirectContactForm(); // Direct Discord Message
     initHackerMode(); // Konami Code
 
-    // Notify Discord (Silent Ping)
+    // Notify Discord (Custom Layout)
     notifyVisit();
 });
 
@@ -358,7 +358,6 @@ function initDownloadModal() {
     
     if(!modal) return;
 
-    // Detect clicks on PDF links
     document.querySelectorAll('a[href$=".pdf"], a[href$=".pptx"]').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault(); 
@@ -371,10 +370,9 @@ function initDownloadModal() {
         modal.classList.remove('active'); targetLink = null; 
     });
     
-    // When User Confirms Download
     if(confirmBtn) confirmBtn.addEventListener('click', () => { 
         if(targetLink) { 
-            // 1. Notify Discord about the intent
+            // Send Generic "Resume Downloaded" message
             sendToDiscord(
                 "📄 Resume Downloaded!", 
                 [
@@ -383,8 +381,6 @@ function initDownloadModal() {
                 ],
                 0xFFD700 // Gold Color
             );
-
-            // 2. Open the file
             window.open(targetLink, '_blank'); 
             modal.classList.remove('active'); 
         } 
@@ -431,18 +427,14 @@ function initDirectContactForm() {
     if(!form) return;
 
     form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Stop page reload
-
+        e.preventDefault(); 
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const message = document.getElementById('message').value;
-
-        // Visual Feedback - "Sending..."
         const btn = form.querySelector('.btn-submit');
         const originalText = btn.innerText;
         btn.innerText = "Transmitting...";
         
-        // Send to Discord
         sendToDiscord(
             "📨 New Job Inquiry",
             [
@@ -453,7 +445,6 @@ function initDirectContactForm() {
             0x00FF00 // Green
         );
 
-        // Reset UI after delay
         setTimeout(() => {
             btn.innerText = originalText;
             form.reset();
@@ -468,52 +459,39 @@ function initDirectContactForm() {
    ========================================= */
 function initHackerMode() {
     const konamiCode = [
-        "ArrowUp", "ArrowUp", 
-        "ArrowDown", "ArrowDown", 
-        "ArrowLeft", "ArrowRight", 
-        "ArrowLeft", "ArrowRight", 
+        "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", 
+        "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", 
         "b", "a"
     ];
     let keyHistory = [];
 
     window.addEventListener('keydown', (e) => {
         keyHistory.push(e.key);
-        
-        // Keep history same length as code
-        if (keyHistory.length > konamiCode.length) {
-            keyHistory.shift();
-        }
-
-        // Check if pattern matches
-        if (JSON.stringify(keyHistory) === JSON.stringify(konamiCode)) {
-            activateHackerMode();
-        }
+        if (keyHistory.length > konamiCode.length) keyHistory.shift();
+        if (JSON.stringify(keyHistory) === JSON.stringify(konamiCode)) activateHackerMode();
     });
 }
 
 function activateHackerMode() {
     document.body.classList.toggle('hacker-mode');
-    
     if (document.body.classList.contains('hacker-mode')) {
         alert("ACCESS GRANTED: MATRIX PROTOCOL INITIATED.");
-        
-        // Notify Discord of this rare event
         sendToDiscord(
             "🕵️ HACKER MODE ACTIVATED",
             [{ name: "Status", value: "User found the Konami Code easter egg!", inline: false }],
-            0xFF0000 // Red
+            0xFF0000 
         );
     }
 }
 
 /* =========================================
-   6. GLOBAL DISCORD NOTIFICATION SYSTEM
+   6. GLOBAL NOTIFICATION SYSTEMS
    ========================================= */
+
+// Generic Sender (For Resumes & Forms)
 function sendToDiscord(title, fields, color = 6619098) {
-    // ⚠️ YOUR WEBHOOK URL HERE
     const webhookURL = 'https://discord.com/api/webhooks/1444721910284943495/-E6nNrnKRJBPBPQYjzDcqNTsl-JupNP0XMEEwr3a8WuoIrZYvgBQDXdEZmhItLk2G_42';
 
-    // Get Basic Visitor Info
     fetch('https://ipapi.co/json/')
         .then(response => response.json())
         .then(data => {
@@ -534,18 +512,69 @@ function sendToDiscord(title, fields, color = 6619098) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(message)
-            }).catch(console.error);
+            });
         })
-        .catch(err => console.log("Tracker blocked by adblocker - skipping location data"));
+        .catch(err => console.log("Tracker blocked"));
 }
 
-// Initial Visitor Ping
+// 🚀 CUSTOM VISIT NOTIFIER (Matches Your Screenshot Exactly)
 function notifyVisit() {
     if(sessionStorage.getItem('visited')) return;
     
-    sendToDiscord(
-        "🚀 New Portfolio Visit", 
-        [{ name: "Page", value: "Index.html", inline: true }]
-    );
-    sessionStorage.setItem('visited', 'true');
+    // 1. Get Device Name
+    const ua = navigator.userAgent;
+    let deviceText = "Unknown Device";
+    if (ua.indexOf("Windows NT 10.0") !== -1) deviceText = "Windows 10/11 PC";
+    else if (ua.indexOf("Windows NT 6.1") !== -1) deviceText = "Windows 7 PC";
+    else if (ua.indexOf("Mac OS X") !== -1) deviceText = "Mac / MacBook";
+    else if (ua.indexOf("Android") !== -1) deviceText = "Android Mobile";
+    else if (ua.indexOf("iPhone") !== -1) deviceText = "iPhone";
+    else if (ua.indexOf("Linux") !== -1) deviceText = "Linux / Desktop";
+
+    // 2. Fetch Data & Format Exactly Like Screenshot
+    fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+            const webhookURL = 'https://discord.com/api/webhooks/1444721910284943495/-E6nNrnKRJBPBPQYjzDcqNTsl-JupNP0XMEEwr3a8WuoIrZYvgBQDXdEZmhItLk2G_42';
+
+            const message = {
+                embeds: [{
+                    title: "🚀 New Portfolio Visit!",
+                    color: 0x64ffda, // Neon Green Bar
+                    fields: [
+                        {
+                            name: "🏢 Network / Company",
+                            value: data.org || "Unknown ISP",
+                            inline: false
+                        },
+                        {
+                            name: "📍 Location",
+                            value: `${data.city}, ${data.region}, ${data.country_name}`,
+                            inline: false 
+                        },
+                        {
+                            name: "Ip Address",
+                            value: data.ip,
+                            inline: true
+                        },
+                        {
+                            name: "📱 Device",
+                            value: deviceText,
+                            inline: true
+                        }
+                    ],
+                    footer: { text: "Jay Damania Portfolio System" },
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(message)
+            });
+            
+            sessionStorage.setItem('visited', 'true');
+        })
+        .catch(err => console.error("Tracking Error:", err));
 }
