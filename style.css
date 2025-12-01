@@ -85,9 +85,11 @@ a, button, input, textarea, .hover-target {
 }
 
 .gradient-text {
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--primary), #fff); 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.3));
 }
 
 /* =========================================
@@ -116,9 +118,9 @@ a, button, input, textarea, .hover-target {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    z-index: 0; /* FIX: Set to 0 so it is above body bg but below content */
+    z-index: 0; 
     background: transparent;
-    pointer-events: none; /* Allow clicks to pass through */
+    pointer-events: none;
 }
 
 /* Custom Cursor */
@@ -232,7 +234,7 @@ nav {
 .mobile-menu-btn { display: none; }
 
 /* =========================================
-   4. HERO SECTION
+   4. HERO SECTION (UPDATED TYPOGRAPHY)
    ========================================= */
 .hero-new {
     min-height: 100vh;
@@ -280,29 +282,57 @@ nav {
     animation: pulse-green 2s infinite;
 }
 
+/* --- UPDATED: Professional Greeting Badge --- */
 .mono-greeting {
     font-family: var(--font-code);
     color: var(--primary);
-    font-size: 1rem;
-    margin-bottom: 10px;
-    display: block;
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: inline-block;
+    
+    /* Designated Look */
+    background: rgba(100, 255, 218, 0.08); 
+    padding: 8px 16px;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+    border-right: 1px solid rgba(100, 255, 218, 0.2);
+    border-top: 1px solid rgba(100, 255, 218, 0.2);
+    border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
 }
 
+/* --- UPDATED: Metallic Gradient Name --- */
 .big-name {
-    font-size: 5rem;
+    font-family: var(--font-main);
+    font-size: 5.5rem;
     font-weight: 800;
-    color: #fff;
     line-height: 1.1;
+    letter-spacing: -3px;
+    margin: 15px 0;
     display: block;
-    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+    
+    /* Gradient */
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    
+    /* Depth */
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
 }
 
+/* --- UPDATED: Elegant Subtitle --- */
 .big-subtitle {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    line-height: 1.2;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #94a3b8;
+    line-height: 1.4;
     margin-top: 10px;
+    letter-spacing: 1px;
     min-height: 1.2em;
 }
 
@@ -613,21 +643,21 @@ nav {
 .interact-hint { color: var(--text-muted); margin-top:10px; font-size: 0.9rem; }
 
 /* =========================================
-   8. TOOLKIT (New Card Design)
+   8. TOOLKIT
    ========================================= */
 .ai-section { padding: 100px 0; }
 
 .toolkit-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 30px;
     margin-top: 50px;
     perspective: 1000px;
 }
 
 .toolkit-card {
-    background: #161b22; /* Dark card background */
-    border: 1px solid #30363d; /* Subtle border */
+    background: #161b22; 
+    border: 1px solid #30363d; 
     border-radius: 15px;
     padding: 40px 30px;
     transition: all 0.3s ease;
@@ -666,18 +696,6 @@ nav {
 .icon-blue { color: var(--blue); } 
 .icon-green { color: var(--primary); } 
 .icon-purple { color: var(--secondary); }
-
-/* Mobile Response for Toolkit */
-@media (max-width: 768px) {
-    .toolkit-grid {
-        grid-template-columns: 1fr; /* 1 Column on mobile */
-        gap: 20px;
-    }
-    
-    .toolkit-card {
-        padding: 30px 20px;
-    }
-}
 
 /* =========================================
    9. PROJECTS & DASHBOARDS
@@ -1033,8 +1051,10 @@ footer { padding: 100px 0 50px; text-align: center; }
 
     /* Hero */
     .hero-new { height: auto; padding-top: 130px; padding-bottom: 80px; min-height: 100vh; }
-    .big-name { font-size: 3rem; } 
-    .big-subtitle { font-size: 1.5rem; }
+    /* New Typography Mobile Sizes */
+    .big-name { font-size: 3.2rem; letter-spacing: -1px; } 
+    .big-subtitle { font-size: 1.4rem; }
+    .mono-greeting { font-size: 0.8rem; letter-spacing: 1px; padding: 6px 12px; }
     .system-badge { margin-bottom: 15px; }
 
     /* Stats */
@@ -1074,4 +1094,25 @@ footer { padding: 100px 0 50px; text-align: center; }
     /* Footer */
     .contact-box { padding: 30px 20px; }
     h2 { font-size: 2.2rem; }
+}
+
+/* =========================================
+   14. HACKER MODE (EASTER EGG)
+   ========================================= */
+body.hacker-mode {
+    background-color: #000;
+    font-family: 'Courier New', monospace;
+}
+body.hacker-mode * {
+    color: #0f0 !important;
+    border-color: #0f0 !important;
+    font-family: 'Courier New', monospace !important; 
+    text-shadow: 0 0 5px #0f0;
+}
+body.hacker-mode .hero-new, body.hacker-mode nav, body.hacker-mode .stat-card-new {
+    background: #000 !important;
+}
+body.hacker-mode .scanlines {
+    opacity: 0.8;
+    background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 255, 0, 0.2) 2px, rgba(0, 255, 0, 0.2) 3px);
 }

@@ -21,8 +21,12 @@ window.addEventListener('load', () => {
     initTiltEffect();
     initThreeJS();
     initNavigation();
-    initDownloadModal();
     initCustomCursor();
+
+    // 🌟 NEW FEATURES 🌟
+    initDownloadModal(); // Updated with Recruiter Detector
+    initDirectContactForm(); // Replaces Formspree
+    initHackerMode(); // Konami Code
 
     // Notify Discord (Silent Ping)
     notifyVisit();
@@ -343,7 +347,9 @@ function initNavigation() {
     });
 }
 
-// --- Download Modal ---
+/* =========================================
+   3. 📄 RECRUITER DETECTOR (UPDATED MODAL)
+   ========================================= */
 function initDownloadModal() {
     const modal = document.getElementById('download-modal');
     const confirmBtn = document.getElementById('btn-confirm');
@@ -352,6 +358,7 @@ function initDownloadModal() {
     
     if(!modal) return;
 
+    // Detect clicks on PDF links
     document.querySelectorAll('a[href$=".pdf"], a[href$=".pptx"]').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault(); 
@@ -364,8 +371,23 @@ function initDownloadModal() {
         modal.classList.remove('active'); targetLink = null; 
     });
     
+    // When User Confirms Download
     if(confirmBtn) confirmBtn.addEventListener('click', () => { 
-        if(targetLink) { window.open(targetLink, '_blank'); modal.classList.remove('active'); } 
+        if(targetLink) { 
+            // 1. Notify Discord about the intent
+            sendToDiscord(
+                "📄 Resume Downloaded!", 
+                [
+                    { name: "File", value: targetLink, inline: true },
+                    { name: "Time", value: new Date().toLocaleTimeString(), inline: true }
+                ],
+                0xFFD700 // Gold Color
+            );
+
+            // 2. Open the file
+            window.open(targetLink, '_blank'); 
+            modal.classList.remove('active'); 
+        } 
     });
     
     modal.addEventListener('click', (e) => { 
@@ -400,57 +422,130 @@ function initCustomCursor() {
 }
 
 /* =========================================
-   14. VISITOR NOTIFICATION SYSTEM (UPDATED)
+   4. 📨 DIRECT-LINK CONTACT FORM
    ========================================= */
-function notifyVisit() {
-    // Check if we already notified this session to prevent spam refreshing
-    if(sessionStorage.getItem('visited')) return;
+function initDirectContactForm() {
+    const form = document.getElementById('contact-form');
+    const statusDiv = document.getElementById('form-status');
     
-    // 1. Get Clean Device Name
-    const ua = navigator.userAgent;
-    let deviceText = "Unknown Device";
+    if(!form) return;
 
-    if (ua.indexOf("Windows NT 10.0") !== -1) deviceText = "Windows 10/11 PC";
-    else if (ua.indexOf("Windows NT 6.1") !== -1) deviceText = "Windows 7 PC";
-    else if (ua.indexOf("Mac OS X") !== -1) deviceText = "Mac / MacBook";
-    else if (ua.indexOf("Android") !== -1) deviceText = "Android Mobile";
-    else if (ua.indexOf("iPhone") !== -1) deviceText = "iPhone";
-    else if (ua.indexOf("Linux") !== -1) deviceText = "Linux / Desktop";
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop page reload
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        // Visual Feedback - "Sending..."
+        const btn = form.querySelector('.btn-submit');
+        const originalText = btn.innerText;
+        btn.innerText = "Transmitting...";
+        
+        // Send to Discord
+        sendToDiscord(
+            "📨 New Job Inquiry",
+            [
+                { name: "Name", value: name, inline: true },
+                { name: "Email", value: email, inline: true },
+                { name: "Message", value: message, inline: false }
+            ],
+            0x00FF00 // Green
+        );
+
+        // Reset UI after delay
+        setTimeout(() => {
+            btn.innerText = originalText;
+            form.reset();
+            statusDiv.style.display = 'block';
+            setTimeout(() => { statusDiv.style.display = 'none'; }, 5000);
+        }, 1000);
+    });
+}
+
+/* =========================================
+   5. 🕵️ HACKER MODE (KONAMI CODE)
+   ========================================= */
+function initHackerMode() {
+    const konamiCode = [
+        "ArrowUp", "ArrowUp", 
+        "ArrowDown", "ArrowDown", 
+        "ArrowLeft", "ArrowRight", 
+        "ArrowLeft", "ArrowRight", 
+        "b", "a"
+    ];
+    let keyHistory = [];
+
+    window.addEventListener('keydown', (e) => {
+        keyHistory.push(e.key);
+        
+        // Keep history same length as code
+        if (keyHistory.length > konamiCode.length) {
+            keyHistory.shift();
+        }
+
+        // Check if pattern matches
+        if (JSON.stringify(keyHistory) === JSON.stringify(konamiCode)) {
+            activateHackerMode();
+        }
+    });
+}
+
+function activateHackerMode() {
+    document.body.classList.toggle('hacker-mode');
     
-    // 2. Get Visitor Data (IP, City, Country)
+    if (document.body.classList.contains('hacker-mode')) {
+        alert("ACCESS GRANTED: MATRIX PROTOCOL INITIATED.");
+        
+        // Notify Discord of this rare event
+        sendToDiscord(
+            "🕵️ HACKER MODE ACTIVATED",
+            [{ name: "Status", value: "User found the Konami Code easter egg!", inline: false }],
+            0xFF0000 // Red
+        );
+    }
+}
+
+/* =========================================
+   6. GLOBAL DISCORD NOTIFICATION SYSTEM
+   ========================================= */
+function sendToDiscord(title, fields, color = 6619098) {
+    // ⚠️ YOUR WEBHOOK URL HERE
+    const webhookURL = 'https://discord.com/api/webhooks/1444721910284943495/-E6nNrnKRJBPBPQYjzDcqNTsl-JupNP0XMEEwr3a8WuoIrZYvgBQDXdEZmhItLk2G_42';
+
+    // Get Basic Visitor Info
     fetch('https://ipapi.co/json/')
         .then(response => response.json())
         .then(data => {
-            
-            // 3. Format the Message for Discord
-            // YOUR WEBHOOK IS HERE:
-            const webhookURL = 'https://discord.com/api/webhooks/1444721910284943495/-E6nNrnKRJBPBPQYjzDcqNTsl-JupNP0XMEEwr3a8WuoIrZYvgBQDXdEZmhItLk2G_42';
-            
             const message = {
                 embeds: [{
-                    title: "🚀 New Portfolio Visit!",
-                    color: 6619098, // Neon Green
+                    title: title,
+                    color: color,
                     fields: [
-                        { name: "🏢 Network / Company", value: data.org || "Unknown ISP", inline: false },
-                        { name: "📍 Location", value: `${data.city}, ${data.region}, ${data.country_name}`, inline: true },
-                        { name: "Ip Address", value: data.ip, inline: true },
-                        // Use our Clean Device Name here
-                        { name: "📱 Device", value: deviceText, inline: true }
+                        ...fields,
+                        { name: "📍 Origin", value: `${data.city}, ${data.country_name}`, inline: true }
                     ],
                     footer: { text: "Jay Damania Portfolio System" },
                     timestamp: new Date()
                 }]
             };
 
-            // 4. Send to Discord
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(message)
-            });
-
-            // Mark session as visited
-            sessionStorage.setItem('visited', 'true');
+            }).catch(console.error);
         })
-        .catch(error => console.error('Tracking Error:', error));
+        .catch(err => console.log("Tracker blocked by adblocker - skipping location data"));
+}
+
+// Initial Visitor Ping
+function notifyVisit() {
+    if(sessionStorage.getItem('visited')) return;
+    
+    sendToDiscord(
+        "🚀 New Portfolio Visit", 
+        [{ name: "Page", value: "Index.html", inline: true }]
+    );
+    sessionStorage.setItem('visited', 'true');
 }

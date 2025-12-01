@@ -138,7 +138,6 @@
 </pre>
                 </div>
                 <div class="card-visual">
-                    <!-- Replace 'my-animation.gif' with your actual image -->
                     <img src="my-animation.gif" alt="Pixel Art Workspace" class="pixel-img">
                 </div>
             </div>
@@ -182,7 +181,7 @@
         </div>
     </section>
 
-    <!-- TOOLKIT SECTION (UPDATED GRID) -->
+    <!-- TOOLKIT SECTION -->
     <section id="toolkit" class="ai-section">
         <div class="container">
             <div class="section-title center text-center" data-aos="fade-down">
@@ -261,11 +260,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Tablet 3: Welspun (Office Use) - NEW -->
+                <!-- Tablet 3: Welspun (Office Use) -->
                 <div class="tablet-device hover-target tilt-card" data-aos="zoom-in" data-aos-delay="400" data-aos-duration="1000">
                     <div class="tablet-camera"></div>
                     <div class="tablet-screen">
-                        <!-- Ensure you have an image named welspun-office.png or update this src -->
                         <img src="welspun-office.png" alt="Welspun Office Dashboard" class="dashboard-img">
                         <div class="tablet-overlay">
                             <h3>Welspun Corporate</h3>
@@ -277,7 +275,7 @@
         </div>
     </section>
 
-    <!-- TIMELINE SECTION (UPDATED 4 POINTS) -->
+    <!-- TIMELINE SECTION -->
     <section id="journey" class="timeline-section">
         <div class="container">
             <div class="section-title text-center" data-aos="fade-up">
@@ -421,12 +419,14 @@
         </div>
     </section>
 
-    <!-- CONTACT SECTION -->
+    <!-- CONTACT SECTION (UPDATED FOR DIRECT LINK) -->
     <footer id="contact">
         <div class="container">
             <div class="contact-box hover-target tilt-card" data-aos="zoom-in">
                 <h2 data-aos="fade-down" data-aos-delay="100">Get In Touch</h2>
-                <form action="https://formspree.io/f/movbrndl" method="POST">
+                
+                <!-- Removed Action, Added ID -->
+                <form id="contact-form">
                     <div class="input-group" data-aos="fade-up" data-aos-delay="300">
                         <input type="text" name="name" id="name" required autocomplete="off" class="hover-target">
                         <label for="name">Your Name</label>
@@ -442,10 +442,17 @@
                         <label for="message">Message</label>
                         <span class="glow-bar"></span>
                     </div>
+                    
                     <button type="submit" class="btn-submit hover-target" data-aos="zoom-in" data-aos-delay="600">
                         Send Message
                     </button>
+                    
+                    <!-- New Status Message Container -->
+                    <div id="form-status" style="margin-top: 20px; color: var(--primary); display: none; font-family: var(--font-code);">
+                        <i class="fas fa-check-circle"></i> Message Transmitted Successfully.
+                    </div>
                 </form>
+
                 <div class="footer-links" data-aos="fade-up" data-aos-delay="700">
                     <a href="https://www.linkedin.com/in/jay-damania-7a2121288" target="_blank" class="hover-target">LinkedIn</a>
                     <a href="mailto:jaydamania26@gmail.com" class="hover-target">Email</a>
@@ -473,10 +480,8 @@
 
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Three.js Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <!-- Main Script -->
     <script src="script.js"></script>
 
 </body>
