@@ -133,7 +133,7 @@ function initTypewriter() {
     const typeText = document.getElementById('typewriter-text');
     if (!typeText) return;
 
-    const phrases = ["Digital Intelligence.", "Python Bots.", "Visual Logic.", "System Architecture."];
+    const phrases = ["Business Analyst.", "Supply Chain Specialist", "Visual Logic."];
     let phraseIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
