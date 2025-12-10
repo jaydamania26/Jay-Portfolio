@@ -48,7 +48,7 @@ function initScrollProgress() {
     });
 }
 
-// --- Background Particles ---
+// --- Background Particles (OPTIMIZED FOR NO LAG) ---
 function initParticles() {
     const canvas = document.getElementById('canvas-bg');
     if (!canvas) return;
@@ -86,7 +86,13 @@ function initParticles() {
 
     function createParticleArray() {
         particlesArray = [];
-        let numberOfParticles = (canvas.height * canvas.width) / 12000; 
+        // OPTIMIZATION: Increased divisor from 12000 to 22000 to reduce total particles.
+        // This keeps the look but frees up CPU for smooth scrolling.
+        let numberOfParticles = (canvas.height * canvas.width) / 22000; 
+        
+        // CAP: Prevent too many particles on 4K screens which causes lag
+        if(numberOfParticles > 80) numberOfParticles = 80;
+
         for (let i = 0; i < numberOfParticles; i++) {
             let size = (Math.random() * 2.5) + 1; 
             let x = (Math.random() * ((window.innerWidth - size * 2) - (size * 2)) + size * 2);
@@ -99,7 +105,10 @@ function initParticles() {
     }
 
     function connect() {
-        let connectDistance = (canvas.width/7) * (canvas.height/7);
+        // OPTIMIZATION: Slightly reduced connection distance logic
+        // Checks fewer pixels, resulting in higher frame rate
+        let connectDistance = (canvas.width/9) * (canvas.height/9); 
+        
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
                 let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + ((particlesArray[a].y - particlesArray[b].y) ** 2);
@@ -123,7 +132,16 @@ function initParticles() {
         connect();
     }
 
-    window.addEventListener('resize', () => { resizeCanvas(); createParticleArray(); });
+    // Debounce resize to prevent memory leak on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => { 
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            resizeCanvas(); 
+            createParticleArray();
+        }, 100);
+    });
+
     createParticleArray(); 
     animateBg();
 }
