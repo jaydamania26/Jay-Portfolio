@@ -500,12 +500,15 @@ function initParticles() {
 
     function createParticleArray() {
         particlesArray = [];
-        // OPTIMIZATION: Increased divisor from 12000 to 22000 to reduce total particles.
-        // This keeps the look but frees up CPU for smooth scrolling.
-        let numberOfParticles = (canvas.height * canvas.width) / 22000;
-
-        // CAP: Prevent too many particles on 4K screens which causes lag
+        
+        // --- MOBILE OPTIMIZATION ---
+        // Reduce particles significantly on mobile
+        let divisor = (window.innerWidth < 768) ? 50000 : 22000; 
+        
+        let numberOfParticles = (canvas.height * canvas.width) / divisor;
+        // Cap max particles
         if (numberOfParticles > 80) numberOfParticles = 80;
+        if (window.innerWidth < 768 && numberOfParticles > 30) numberOfParticles = 30; // Hard cap for mobile
 
         for (let i = 0; i < numberOfParticles; i++) {
             let size = (Math.random() * 2.5) + 1;
@@ -519,9 +522,9 @@ function initParticles() {
     }
 
     function connect() {
-        // OPTIMIZATION: Slightly reduced connection distance logic
-        // Checks fewer pixels, resulting in higher frame rate
-        let connectDistance = (canvas.width / 9) * (canvas.height / 9);
+        // Mobile optimization: Reduce connection distance
+        let divider = (window.innerWidth < 768) ? 15 : 9;
+        let connectDistance = (canvas.width / divider) * (canvas.height / divider);
 
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
@@ -546,7 +549,6 @@ function initParticles() {
         connect();
     }
 
-    // Debounce resize to prevent memory leak on window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
@@ -727,15 +729,19 @@ initStablePortfolio();
 
 // --- Three.js (The Core) ---
 function initThreeJS() {
-    // STOP ON MOBILE
-    if (window.innerWidth < 769) return;
-
     const container = document.getElementById('ai-canvas');
     if (!container) return;
 
+    // Adjust camera for mobile (zoom out slightly)
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 3;
+    
+    // Move camera further back on mobile
+    if(window.innerWidth < 768) {
+        camera.position.z = 4.5; 
+    } else {
+        camera.position.z = 3;
+    }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -744,7 +750,7 @@ function initThreeJS() {
     const group = new THREE.Group();
     scene.add(group);
 
-    // 1. THE INNER CORE (The glowing teal sphere)
+    // 1. THE INNER CORE
     const coreGeo = new THREE.IcosahedronGeometry(0.5, 5);
     const coreMat = new THREE.MeshBasicMaterial({
         color: 0x64ffda,
@@ -755,12 +761,13 @@ function initThreeJS() {
     const core = new THREE.Mesh(coreGeo, coreMat);
     group.add(core);
 
-    // 2. THE DENSE OUTER CLOUD (The white star field from image)
-    const particlesCount = 15000; // High density
+    // 2. THE STAR FIELD (Reduce density on mobile)
+    const isMobile = window.innerWidth < 768;
+    const particlesCount = isMobile ? 4000 : 15000; // Fewer stars on mobile
+    
     const positions = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-        // Create a spherical distribution
         const r = 1.2 + Math.random() * 0.5;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
@@ -782,35 +789,24 @@ function initThreeJS() {
     const starField = new THREE.Points(partGeo, partMat);
     group.add(starField);
 
-    // 3. CONTROLS (Interact: Drag to Rotate)
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enableZoom = false; // Keep the composition intact
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 2.0;
+    function animate() {
+        requestAnimationFrame(animate);
+        group.rotation.y += 0.002;
+        group.rotation.x += 0.001;
 
+        const scale = 1 + Math.sin(Date.now() * 0.002) * 0.05;
+        core.scale.set(scale, scale, scale);
+
+        renderer.render(scene, camera);
+    }
+    animate();
+    
     // Handle Resize
     window.addEventListener('resize', () => {
         camera.aspect = container.clientWidth / container.clientHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(container.clientWidth, container.clientHeight);
     });
-
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Manual rotation is handled by OrbitControls now
-        // group.rotation.y += 0.002; 
-
-        // Pulse effect
-        const scale = 1 + Math.sin(Date.now() * 0.002) * 0.05;
-        core.scale.set(scale, scale, scale);
-
-        controls.update(); // Update controls
-        renderer.render(scene, camera);
-    }
-    animate();
 }
 
 // --- Navigation ---
