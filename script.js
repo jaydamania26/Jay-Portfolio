@@ -730,82 +730,145 @@ initStablePortfolio();
 // --- Three.js (The Core) ---
 function initThreeJS() {
     const container = document.getElementById('ai-canvas');
-    if (!container) return;
+    if (!container || getComputedStyle(container).display === 'none') return;
 
-    // Adjust camera for mobile (zoom out slightly)
+    // --- 1. SETUP & CAMERA ---
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
     
-    // Move camera further back on mobile
-    if(window.innerWidth < 768) {
-        camera.position.z = 4.5; 
-    } else {
-        camera.position.z = 3;
-    }
+    // Zoom out slightly on mobile (Z=4.5) to keep stars inside the "mask" area
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.z = window.innerWidth < 768 ? 4.5 : 3;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    
+    // FIX BLUR: Use device pixel ratio (capped at 2 for performance)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
     const group = new THREE.Group();
     scene.add(group);
 
-    // 1. THE INNER CORE
-    const coreGeo = new THREE.IcosahedronGeometry(0.5, 5);
+    // --- 2. THE CORE (Icosahedron) ---
+    const coreGeo = new THREE.IcosahedronGeometry(1.2, 1);
     const coreMat = new THREE.MeshBasicMaterial({
         color: 0x64ffda,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.35,
         wireframe: true
     });
     const core = new THREE.Mesh(coreGeo, coreMat);
     group.add(core);
 
-    // 2. THE STAR FIELD (Reduce density on mobile)
-    const isMobile = window.innerWidth < 768;
-    const particlesCount = isMobile ? 4000 : 15000; // Fewer stars on mobile
+    // --- 3. THE STARS (Spherical Distribution) ---
+    // Using a Sphere calculation prevents the "Square Box" look
+    const particlesCount = window.innerWidth < 768 ? 5000 : 12000;
+    const posArray = new Float32Array(particlesCount * 3);
     
-    const positions = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i += 3) {
-        const r = 1.2 + Math.random() * 0.5;
+    for(let i = 0; i < particlesCount * 3; i+=3) {
+        // Random Radius between 2.0 and 5.0
+        const r = 2.0 + Math.random() * 3.0; 
+        
+        // Spherical Coordinates
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
 
-        positions[i] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i + 2] = r * Math.cos(phi);
+        // Convert to X, Y, Z
+        posArray[i] = r * Math.sin(phi) * Math.cos(theta);     // x
+        posArray[i+1] = r * Math.sin(phi) * Math.sin(theta);   // y
+        posArray[i+2] = r * Math.cos(phi);                     // z
     }
 
-    const partGeo = new THREE.BufferGeometry();
-    partGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const partMat = new THREE.PointsMaterial({
-        size: 0.005,
+    const starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    
+    const starMat = new THREE.PointsMaterial({
+        size: 0.015, // Visible size on mobile
         color: 0xffffff,
         transparent: true,
-        opacity: 0.4
+        opacity: 0.6,
+        sizeAttenuation: true
+    });
+    
+    const stars = new THREE.Points(starGeo, starMat);
+    group.add(stars);
+
+    // --- 4. INTERACTION (Tap & Drag) ---
+    let isDragging = false;
+    let previousMousePosition = { x: 0 };
+    let rotationSpeed = 0.002; // Default slow spin
+    let impulse = 0; // Tap boost
+
+    // Start Drag
+    const onStart = (e) => {
+        isDragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        previousMousePosition = { x: clientX };
+        impulse = 0; // Stop impulse if grabbed
+    };
+
+    // Move
+    const onMove = (e) => {
+        if (!isDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const deltaMove = clientX - previousMousePosition.x;
+        
+        // Manual Rotation
+        group.rotation.y += deltaMove * 0.01;
+        previousMousePosition = { x: clientX };
+        rotationSpeed = 0; // Stop auto-spin while dragging
+    };
+
+    // End Drag
+    const onEnd = () => {
+        isDragging = false;
+        rotationSpeed = 0.002; // Resume auto-spin
+    };
+
+    // Tap Impulse
+    container.addEventListener('click', () => {
+        if(!isDragging) impulse = 0.15; // Boost speed
     });
 
-    const starField = new THREE.Points(partGeo, partMat);
-    group.add(starField);
+    // Listeners
+    container.addEventListener('mousedown', onStart);
+    container.addEventListener('mousemove', onMove);
+    container.addEventListener('mouseup', onEnd);
+    
+    container.addEventListener('touchstart', onStart, { passive: false });
+    container.addEventListener('touchmove', (e) => { 
+        e.preventDefault(); // Stop page scroll
+        onMove(e); 
+    }, { passive: false });
+    container.addEventListener('touchend', onEnd);
 
+    // --- 5. ANIMATION LOOP ---
     function animate() {
         requestAnimationFrame(animate);
-        group.rotation.y += 0.002;
+
+        // Rotate
+        group.rotation.y += rotationSpeed + impulse;
         group.rotation.x += 0.001;
 
+        // Friction for impulse
+        impulse *= 0.95;
+
+        // Pulse Core
         const scale = 1 + Math.sin(Date.now() * 0.002) * 0.05;
         core.scale.set(scale, scale, scale);
 
         renderer.render(scene, camera);
     }
     animate();
-    
-    // Handle Resize
+
+    // --- 6. RESIZE HANDLER ---
     window.addEventListener('resize', () => {
-        camera.aspect = container.clientWidth / container.clientHeight;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
 }
 
