@@ -226,6 +226,11 @@ function initMorphingShowcase() {
     }
     animate();
 
+    // Auto-activate first card on load
+    if (cards.length > 0) {
+        cards[0].classList.add('active');
+    }
+
     track.addEventListener('scroll', () => {
         cards.forEach(card => {
             const rect = card.getBoundingClientRect();
@@ -760,7 +765,7 @@ function initThreeJS() {
     const core = new THREE.Mesh(coreGeo, coreMat);
     group.add(core);
 
-        // --- NEW: GLOWING INNER SPHERE (The Brain/Heart) ---
+    // --- NEW: GLOWING INNER SPHERE (The Brain/Heart) ---
     const innerGeo = new THREE.SphereGeometry(0.5, 32, 32);
     const innerMat = new THREE.MeshBasicMaterial({
         color: 0x00ffd5,
