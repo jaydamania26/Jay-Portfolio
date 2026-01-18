@@ -500,11 +500,11 @@ function initParticles() {
 
     function createParticleArray() {
         particlesArray = [];
-        
+
         // --- MOBILE OPTIMIZATION ---
         // Reduce particles significantly on mobile
-        let divisor = (window.innerWidth < 768) ? 50000 : 22000; 
-        
+        let divisor = (window.innerWidth < 768) ? 50000 : 22000;
+
         let numberOfParticles = (canvas.height * canvas.width) / divisor;
         // Cap max particles
         if (numberOfParticles > 80) numberOfParticles = 80;
@@ -734,13 +734,13 @@ function initThreeJS() {
 
     // --- 1. SETUP & CAMERA ---
     const scene = new THREE.Scene();
-    
+
     // Zoom out slightly on mobile (Z=4.5) to keep stars inside the "mask" area
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.z = window.innerWidth < 768 ? 4.5 : 3;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    
+
     // FIX BLUR: Use device pixel ratio (capped at 2 for performance)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -760,28 +760,49 @@ function initThreeJS() {
     const core = new THREE.Mesh(coreGeo, coreMat);
     group.add(core);
 
+        // --- NEW: GLOWING INNER SPHERE (The Brain/Heart) ---
+    const innerGeo = new THREE.SphereGeometry(0.5, 32, 32);
+    const innerMat = new THREE.MeshBasicMaterial({
+        color: 0x00ffd5,
+        transparent: true,
+        opacity: 0.7
+    });
+    const innerCore = new THREE.Mesh(innerGeo, innerMat);
+    group.add(innerCore);
+
+    // --- OUTER GLOW EFFECT ---
+    const glowGeo = new THREE.SphereGeometry(0.6, 32, 32);
+    const glowMat = new THREE.MeshBasicMaterial({
+        color: 0x64ffda,
+        transparent: true,
+        opacity: 0.2,
+        side: THREE.BackSide
+    });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    group.add(glow);
+
     // --- 3. THE STARS (Spherical Distribution) ---
     // Using a Sphere calculation prevents the "Square Box" look
     const particlesCount = window.innerWidth < 768 ? 5000 : 12000;
     const posArray = new Float32Array(particlesCount * 3);
-    
-    for(let i = 0; i < particlesCount * 3; i+=3) {
+
+    for (let i = 0; i < particlesCount * 3; i += 3) {
         // Random Radius between 2.0 and 5.0
-        const r = 2.0 + Math.random() * 3.0; 
-        
+        const r = 2.0 + Math.random() * 3.0;
+
         // Spherical Coordinates
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
 
         // Convert to X, Y, Z
         posArray[i] = r * Math.sin(phi) * Math.cos(theta);     // x
-        posArray[i+1] = r * Math.sin(phi) * Math.sin(theta);   // y
-        posArray[i+2] = r * Math.cos(phi);                     // z
+        posArray[i + 1] = r * Math.sin(phi) * Math.sin(theta);   // y
+        posArray[i + 2] = r * Math.cos(phi);                     // z
     }
 
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    
+
     const starMat = new THREE.PointsMaterial({
         size: 0.015, // Visible size on mobile
         color: 0xffffff,
@@ -789,7 +810,7 @@ function initThreeJS() {
         opacity: 0.6,
         sizeAttenuation: true
     });
-    
+
     const stars = new THREE.Points(starGeo, starMat);
     group.add(stars);
 
@@ -812,7 +833,7 @@ function initThreeJS() {
         if (!isDragging) return;
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const deltaMove = clientX - previousMousePosition.x;
-        
+
         // Manual Rotation
         group.rotation.y += deltaMove * 0.01;
         previousMousePosition = { x: clientX };
@@ -827,18 +848,18 @@ function initThreeJS() {
 
     // Tap Impulse
     container.addEventListener('click', () => {
-        if(!isDragging) impulse = 0.15; // Boost speed
+        if (!isDragging) impulse = 0.15; // Boost speed
     });
 
     // Listeners
     container.addEventListener('mousedown', onStart);
     container.addEventListener('mousemove', onMove);
     container.addEventListener('mouseup', onEnd);
-    
+
     container.addEventListener('touchstart', onStart, { passive: false });
-    container.addEventListener('touchmove', (e) => { 
+    container.addEventListener('touchmove', (e) => {
         e.preventDefault(); // Stop page scroll
-        onMove(e); 
+        onMove(e);
     }, { passive: false });
     container.addEventListener('touchend', onEnd);
 
